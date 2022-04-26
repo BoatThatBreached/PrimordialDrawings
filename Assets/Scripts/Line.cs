@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class Line
 {
-    private double Slope;
-    private double Offset;
+    private float Slope;
+    private float Offset;
     private bool isOrtho;
     public Vector2 P1;
     public Vector2 P2;
-    public double Evaluate(double x) => isOrtho ? double.PositiveInfinity : Slope * x + Offset;
-
+    public float Evaluate(float x) => isOrtho ? float.PositiveInfinity : Slope * x + Offset;
+    public override string ToString()
+    {
+        return $"slope: {Slope}, offset: {Offset}";
+    }
 
     public Line(Vector2 p1, Vector2 p2)
     {
@@ -31,28 +34,63 @@ public class Line
 public class Polyline
 {
     private List<Line> Lines;
+    private Vector2 last;
+    private bool started;
+    public float rightBound;
+    public float leftBound;
 
     public Polyline()
     {
         Lines = new List<Line>();
+        started = false;
     }
 
-    public bool IsAbove(Vector2 pos)
+    public float Evaluate(Vector2 pos)
     {
-        foreach (var line in Lines)
-            if (pos.x >= line.LeftBound() && pos.x <= line.RightBound() && line.Evaluate(pos.x) < pos.y)
-                return false;
-        return true;
+        var line = Lines.FirstOrDefault(line => line.LeftBound() < pos.x && line.RightBound() > pos.x);
+        return line?.Evaluate(pos.x) ?? pos.y;
     }
 
-    public bool IsUnder(Vector2 pos)
+    public float DiffY(Vector2 pos) => pos.y - Evaluate(pos);
+
+    public bool IsAboveThePoint(Vector2 pos)
     {
+        if (pos.x < leftBound || pos.x > rightBound)
+            return false;
         foreach (var line in Lines)
-            if (pos.x >= line.LeftBound() && pos.x <= line.RightBound() && line.Evaluate(pos.x) > pos.y)
+        {
+            if (pos.x < line.LeftBound() || pos.x > line.RightBound())
+                continue;
+            if (line.Evaluate(pos.x) < pos.y)
                 return false;
+        }
+
         return true;
     }
 
     public void Add(Line l) => Lines.Add(l);
+
+    public void Add(Vector2 pos)
+    {
+        if (started)
+        {
+            Lines.Add(new Line(last, pos));
+            leftBound = Mathf.Min(leftBound, pos.x);
+            rightBound = Mathf.Max(rightBound, pos.x);
+        }
+
+        last = pos;
+        started = true;
+    }
+
     public int Count => Lines.Count;
+
+    public IEnumerable<Line> GetLines
+    {
+        get
+        {
+            foreach (var line in Lines)
+                yield return line;
+        }
+    }
 }

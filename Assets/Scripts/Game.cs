@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
     private readonly List<Polyline> _terrain = new List<Polyline>();
-
+    public Polyline CurrentPlatform;
     private void Start()
     {
         //AddTerrains(new List<Vector2>(){new Vector2(-5, -6), new Vector2(5, 6)});
@@ -17,10 +17,11 @@ public class Game : MonoBehaviour
         if (path.Count < 2)
             throw new ArgumentException();
         var polyline = new Polyline();
-        polyline.Add(new Line(path[0], path[1]));
-        
         var delta = path[1].x - path[0].x;
-        for (var i = 2; i < path.Count; i++)
+        polyline.Add(path[0]);
+        print(path[0]);
+        print(path[1]);
+        for (var i = 1; i < path.Count; i++)
         {
             var dx = path[i].x - path[i - 1].x;
             if (delta * dx <= 0)
@@ -30,25 +31,36 @@ public class Game : MonoBehaviour
                 polyline = new Polyline();
             }
 
-            polyline.Add(new Line(path[i-1], path[i]));
+            polyline.Add(path[i]);
         }
         
-        _terrain.Add(polyline);
-        
-        
+        if(polyline.Count>1)
+            _terrain.Add(polyline);
+
+        //var player = FindObjectOfType<Player>();
         foreach(var p in _terrain)
-            print(p.Count);
+        {
+            var sb = new StringBuilder();
+            foreach (var l in p.GetLines)
+                sb.Append($"p1: {l.P1}, p2: {l.P2}\n");
+            print(sb.ToString());
+        }
     }
 
     public bool IsPlayerGrounded(Player p)
     {
-        var feet = p.Feet;
         foreach (var polyline in _terrain)
         {
-            if (polyline.IsUnder(feet+new Vector2(0, 0.02f)) && polyline.IsAbove(feet))
+            if (polyline.IsAboveThePoint(p.FeetLow) && !polyline.IsAboveThePoint(p.FeetHigh))
+            {
+                CurrentPlatform = polyline;
                 return true;
+            }
         }
 
+        CurrentPlatform = null;
         return false;
     }
+    
+    
 }
