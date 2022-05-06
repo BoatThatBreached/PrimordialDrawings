@@ -40,15 +40,19 @@ public class Draw : MonoBehaviour
                     var curr = _currentLineRenderer.GetPosition(i);
                     var curr2 = new Vector2(curr.x, curr.y);
                     var d1 = curr2 - prev;
-                    if (d1.sqrMagnitude < 3)
+                    if (d1.sqrMagnitude < 1.5f)
                         continue;
                     path.Add(curr2);
                 }
                 path.Add(_currentLineRenderer.GetPosition(count-1));
                 print($"{count} -> {path.Count}");
-                var path2 = path.Select(v => new Vector2(v.x, v.y));
+                var path2 = path.Select(v => new Vector2(v.x, v.y)).ToList();
                 game.AddTerrains(path2.ToList());
-                
+
+                _currentLineRenderer.positionCount = 0;
+                foreach(var p in path2)
+                    AddPoint(p);
+
             } 
             _currentLineRenderer = null;
         }

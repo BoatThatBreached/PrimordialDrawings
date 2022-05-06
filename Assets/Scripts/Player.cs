@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
             transform.position += new Vector3(right, dy);
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                transform.position += (Vector3) (FeetLow - new Vector2(FeetLow.x, game.CurrentPlatform.Evaluate(FeetLow)));
+                transform.position += Vector3.up;
                 JumpVelocity = 3;
             }
         }
