@@ -1,66 +1,77 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    private readonly List<Polyline> _terrain = new List<Polyline>();
-    public Polyline CurrentPlatform;
+    public GameObject terrainPref;
+    private List<LineRenderer> Renderers;
+    public static bool IsPaused;
     private void Start()
     {
-        //AddTerrains(new List<Vector2>(){new Vector2(-5, -6), new Vector2(5, 6)});
+        IsPaused = false;
+        Renderers = new List<LineRenderer>();
     }
 
-    public void AddTerrains(List<Vector2> path)
+    public void AddTerrains(List<Vector2> path, GameObject renderer)
     {
+        Renderers.Add(renderer.GetComponent<LineRenderer>());
         if (path.Count < 2)
             throw new ArgumentException();
-        var polyline = new Polyline();
-        var delta = path[1].x - path[0].x;
-        polyline.Add(path[0]);
-        print(path[0]);
-        print(path[1]);
-        for (var i = 1; i < path.Count; i++)
+        for (var i = 0; i < path.Count - 1; i++)
         {
-            var dx = path[i].x - path[i - 1].x;
-            if (delta * dx <= 0)
-            {
-                delta = dx;
-                _terrain.Add(polyline);
-                polyline = new Polyline();
-            }
-
-            polyline.Add(path[i]);
-        }
-        
-        if(polyline.Count>1)
-            _terrain.Add(polyline);
-
-        //var player = FindObjectOfType<Player>();
-        foreach(var p in _terrain)
-        {
-            var sb = new StringBuilder();
-            foreach (var l in p.GetLines)
-                sb.Append($"p1: {l.P1}, p2: {l.P2}\n");
-            print(sb.ToString());
+            var center = (path[i] + path[i + 1]) / 2;
+            var delta = path[i + 1] - path[i];
+            var len = delta.magnitude;
+            var terr = Instantiate(terrainPref, transform);
+            terr.transform.position = center;
+            terr.transform.localScale = new Vector3(len, 0.2f, 1);
+            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x)/Mathf.PI*180f);
         }
     }
 
-    public bool IsPlayerGrounded(Player p)
+    private void Update()
     {
-        foreach (var polyline in _terrain)
+        if (IsPaused)
+            return;
+        foreach (var rend in Renderers)
         {
-            if (polyline.IsAboveThePoint(p.FeetLow) && !polyline.IsAboveThePoint(p.FeetHigh))
+            for (var i = 0; i < rend.positionCount; i++)
             {
-                CurrentPlatform = polyline;
-                return true;
+                var delta = new Vector2();
+                float dx;
+                float dy;
+                var t = Time.time+i/10f;
+                var dt = t - Time.deltaTime;
+                switch (i % 4)
+                {
+                    case 0:
+                        dx = Mathf.Cos(t)-Mathf.Cos(dt);
+                        dy = Leaf(Mathf.Cos(t))-Leaf(Mathf.Cos(dt));
+                        delta = new Vector2(dx, dy);
+                        break;
+                    case 1:
+                        dy = Mathf.Cos(t)-Mathf.Cos(dt);
+                        dx = Leaf(Mathf.Cos(t))-Leaf(Mathf.Cos(dt));
+                        delta = new Vector2(dx, dy);
+                        break;
+                    case 2:
+                        dx = Mathf.Cos(t)-Mathf.Cos(dt);
+                        dy = Leaf(Mathf.Cos(t))-Leaf(Mathf.Cos(dt));
+                        delta = new Vector2(dx, -dy);
+                        break;
+                    case 3:
+                        dy = Mathf.Cos(t)-Mathf.Cos(dt);
+                        dx = Leaf(Mathf.Cos(t))-Leaf(Mathf.Cos(dt));
+                        delta = new Vector2(dx, -dy);
+                        break;
+                }
+                rend.SetPosition(i, rend.GetPosition(i)+(Vector3)delta/6);
             }
         }
-
-        CurrentPlatform = null;
-        return false;
     }
-    
-    
+
+    private float Leaf(float arg) => Mathf.Sqrt(Mathf.Pow(arg, 4) - Mathf.Pow(arg, 6));
 }
