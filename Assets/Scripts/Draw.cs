@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,20 @@ public class Draw : MonoBehaviour
     private Vector2 _lastPos;
     private LineRenderer _currentLineRenderer;
     public Game game;
+    public Material terrainMaterial;
+
+    private void Start()
+    {
+        CreateBrush();
+        var path2 = Enumerable.Range(-50, 101).Select(i => new Vector2(i / 5f, -3 + Mathf.Sin(i/12f))).ToList();
+        _currentLineRenderer.positionCount = 0;
+        foreach(var p in path2)
+            AddPoint(p);
+        _currentLineRenderer.material = terrainMaterial;
+        game.AddTerrains(path2.ToList(), _currentLineRenderer.gameObject);
+        _currentLineRenderer = null;
+    }
+
     private void Update() => Render();
     
     private void Render()
@@ -32,6 +47,7 @@ public class Draw : MonoBehaviour
 
             if (_currentLineRenderer)
             {
+                _currentLineRenderer.material = terrainMaterial;
                 var path = new List<Vector2>(){_currentLineRenderer.GetPosition(0)};
                 var count = _currentLineRenderer.positionCount;
                 for (var i = 1; i < count - 1; i++)
