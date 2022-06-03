@@ -77,4 +77,12 @@ public class Game : MonoBehaviour
     }
 
     public static float Leaf(float arg) => Mathf.Sqrt(Mathf.Pow(arg, 4) - Mathf.Pow(arg, 6));
+
+    public static void Clear(Transform t)
+    {
+        foreach(Transform child in t)
+            Destroy(t.gameObject);
+    }
+
+    public static void Clear(GameObject g) => Clear(g.transform);
 }

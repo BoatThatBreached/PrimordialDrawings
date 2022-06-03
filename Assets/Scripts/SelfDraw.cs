@@ -33,7 +33,7 @@ public class SelfDraw: MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Vector2 mousePos = mCamera.ScreenToWorldPoint(Input.mousePosition);
-            if ((mousePos - lastPos).magnitude<0.64f)
+            if ((mousePos - lastPos).magnitude<0.05f)
                 return;
             AddPoint(mousePos);
             lastPos = mousePos;
