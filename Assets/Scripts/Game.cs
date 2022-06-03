@@ -1,28 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
     public GameObject terrainPref;
-    private List<LineRenderer> Renderers;
-    private List<Vector3> Centers;
+
+    public TMP_Text currentSpawn;
+    // private List<LineRenderer> Renderers;
+    // private List<Vector3> Centers;
     public static bool IsPaused;
     private void Awake()
     {
         PlayerInfo.Reset();
         IsPaused = false;
-        Renderers = new List<LineRenderer>();
-        Centers = new List<Vector3>();
+        //Renderers = new List<LineRenderer>();
+        //Centers = new List<Vector3>();
     }
 
     public void AddTerrains(List<Vector2> path, LineRenderer lineRenderer, bool addCollider=true)
     {
         lineRenderer.transform.SetParent(transform, true);
-        Renderers.Add(lineRenderer);
-        Centers.Add(path.Aggregate((p1, p2)=>p1+p2)/path.Count);
+        // Renderers.Add(lineRenderer);
+        // Centers.Add(path.Aggregate((p1, p2)=>p1+p2)/path.Count);
         if (!addCollider)
             return;
         for (var i = 0; i < path.Count - 1; i++)
@@ -39,25 +42,29 @@ public class Game : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsPaused)
+        if (IsPaused||PlayerInfo.Learned.Count==0)
             return;
+        
+        PlayerInfo.UpdateIndex((int) Input.mouseScrollDelta.y);
+        currentSpawn.text = PlayerInfo.CurrentType;
 
-        for (var i = 0; i < Renderers.Count; i++)
-        {
-            var c = Centers[i];
-            var t = Time.time;
-            var a = 20f;
-            var b = 10f;
-            for (var j = 0; j < Renderers[i].positionCount; j++)
-            {
-                var delta = Renderers[i].GetPosition(j) - c;
-                delta *= 1 + (Leaf(Mathf.Cos(t+j/a)) - Leaf(Mathf.Cos(t - Time.fixedDeltaTime+j/a)))/b;
-                Renderers[i].SetPosition(j, c+delta);
-            }
-        }
+        //
+        // for (var i = 0; i < Renderers.Count; i++)
+        // {
+        //     var c = Centers[i];
+        //     var t = Time.time;
+        //     var a = 20f;
+        //     var b = 10f;
+        //     for (var j = 0; j < Renderers[i].positionCount; j++)
+        //     {
+        //         var delta = Renderers[i].GetPosition(j) - c;
+        //         delta *= 1 + (Leaf(Mathf.Cos(t+j/a)) - Leaf(Mathf.Cos(t - Time.fixedDeltaTime+j/a)))/b;
+        //         Renderers[i].SetPosition(j, c+delta);
+        //     }
+        // }
     }
 
-    public static float Leaf(float arg) => Mathf.Sqrt(Mathf.Pow(arg, 4) - Mathf.Pow(arg, 6));
+    //public static float Leaf(float arg) => Mathf.Sqrt(Mathf.Pow(arg, 4) - Mathf.Pow(arg, 6));
 
     public static void Clear(Transform t)
     {
