@@ -68,6 +68,7 @@ public class SavedEntry : MonoBehaviour
         var realLine = line.ToVectList();
         for (var i = 0; i < realLine.Count - 1; i++) {
             var curr = realLine[i];
+            Debug.Log(curr.x + " " + curr.y);
             var next = realLine[i + 1];
             var delta = next - curr;
             var center = curr + delta / 2;
@@ -92,7 +93,7 @@ public class SavedEntry : MonoBehaviour
 
         yield return null;
     }
-    
+
 }
 
 public static class UnityExtensions
@@ -124,5 +125,21 @@ public static class UnityExtensions
     {
         var split = s.Split('_');
         return new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
+    }
+
+    public static List<Vector3> KeyPoints(this List<Vector3> line)
+    {
+        var keyPoints = new List<Vector3> { line[0] };
+        var prev = line[0];
+        for (var i = 1; i < line.Count - 1; i++)
+        {
+            var point = line[i];
+            var next = line[i + 1];
+            if (Vector3.Distance(prev, point) >= 0.2f &&
+                Math.Cos(Vector3.Angle(point - prev, next - point)) >= -Math.Sqrt(2) / 2)
+                keyPoints.Add(point);
+        }
+        keyPoints.Add(line[line.Count - 1]);
+        return keyPoints;
     }
 }

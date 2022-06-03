@@ -22,7 +22,11 @@ public static class PlayerInfo
         MaxLevel = 1;
         Requirements = new Dictionary<EnvType, Dictionary<EnvPaints, int>>
         {
-            [EnvType.Sprout] = CreateReq(0, 0, 2)
+            [EnvType.Sprout] = CreateReq(0, 0, 2),
+            [EnvType.Saddle] = CreateReq(0, 0, 1),
+            [EnvType.Spear] = CreateReq(0, 0, 2),
+            [EnvType.Boat] = CreateReq(0, 0, 3),
+            [EnvType.Tiger] = CreateReq(4, 0, 0)
         };
         ChosenType = EnvType.Sprout;
         //ChosenIndex = -1;

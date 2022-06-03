@@ -1,5 +1,8 @@
 ﻿public enum EnvType
 {
     Sprout,
-    Saddle
+    Saddle,
+    Spear,
+    Boat,
+    Tiger
 }
