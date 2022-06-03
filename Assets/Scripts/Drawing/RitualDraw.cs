@@ -50,7 +50,7 @@ public class RitualDraw : SelfDraw
                 {
                     foreach (var newPoint in newLine)
                     {
-                        if (Vector3.Distance(newPoint, keyPoint) > 2f)
+                        if (Vector3.Distance(newPoint, keyPoint) > 0.5f)
                             continue;
                         check = true;
                         break;
