@@ -9,15 +9,25 @@ using UnityEngine.UI;
 public class DevDraw : SelfDraw
 {
     public SavedEntry container;
-    public TMP_InputField drawingType;
+    public TMP_Dropdown drawingType;
     public TMP_InputField title;
     public Toggle isTough;
+    public Toggle isSync;
 
     public void Save()
     {
-        PrefabUtility.SaveAsPrefabAsset(container.gameObject, $"Assets/Prefabs/{title.text}.prefab");
+        PrefabUtility.SaveAsPrefabAsset(container.gameObject, $"Assets/Resources/Prefabs/{title.text}.prefab");
         Game.Clear(container.transform);
         container.Init();
+    }
+
+    public void Clear()
+    {
+        container.transform.SetParent(transform.parent);
+        Game.Clear(transform);
+        Game.Clear(container.transform);
+        container.Init();
+        container.transform.SetParent(transform);
     }
 
     private void Start()
@@ -30,7 +40,10 @@ public class DevDraw : SelfDraw
     private void Confirm()
     {
         if (currentLineRenderer.positionCount < 2)
+        {
+            Destroy(currentLineRenderer.gameObject);
             return;
+        }
         currentLineRenderer.transform.SetParent(transform);
         
         var path = 
@@ -39,7 +52,7 @@ public class DevDraw : SelfDraw
                 .Select(currentLineRenderer.GetPosition)
                 .ToList();
         var path2 = path.Select(v => new Vector3(v.x, v.y)).ToList();
-        container.Add(path2.ToStrList(), drawingType.text.ToLower(), isTough.isOn);
+        container.Add(path2.ToStrList(), drawingType.value.ToString(), isTough.isOn, isSync.isOn);
         currentLineRenderer = null;
     }
 }

@@ -13,29 +13,10 @@ public class Game : MonoBehaviour
     private void Awake()
     {
         PlayerInfo.Reset();
-        //RefreshUI();
         IsPaused = false;
         Renderers = new List<LineRenderer>();
         Centers = new List<Vector3>();
     }
-
-    // public static void RefreshUI()
-    // {
-    //     var sliders = FindObjectsOfType<Slider>();
-    //     var studyPanel = GameObject.FindWithTag("StudyPanel");
-    //     var studyPref = Resources.Load<GameObject>("studyPref");
-    //     foreach (var slide in sliders)
-    //     {
-    //         slide.value = PlayerInfo.PaintsRemaining[(EnvPaints) Enum.Parse(typeof(EnvPaints), slide.name)];
-    //     }
-    //     foreach(Transform child in studyPanel.transform)
-    //         Destroy(child.gameObject);
-    //     foreach (var study in PlayerInfo.Studied)
-    //         Instantiate(studyPref, studyPanel.transform);
-    //     //TODO: mouseWheel switching
-    //
-    //
-    // }
 
     public void AddTerrains(List<Vector2> path, LineRenderer lineRenderer, bool addCollider=true)
     {
@@ -81,7 +62,7 @@ public class Game : MonoBehaviour
     public static void Clear(Transform t)
     {
         foreach(Transform child in t)
-            Destroy(t.gameObject);
+            Destroy(child.gameObject);
     }
 
     public static void Clear(GameObject g) => Clear(g.transform);

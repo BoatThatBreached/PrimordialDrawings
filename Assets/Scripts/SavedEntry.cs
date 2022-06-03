@@ -10,12 +10,14 @@ public class SavedEntry : MonoBehaviour
     [SerializeField]public List<string> Materials;
     [SerializeField]public List<bool> Toughness;
     public GameObject terrainPref;
-    public GameObject brush;
     public Material blood, earth, wood;
-    private List<LineRenderer> Renderers;
-    public void Start()
+    public bool synchronized;
+
+    public string envType;
+    //private List<LineRenderer> Renderers;
+    public void Animate()
     {
-        Renderers = new List<LineRenderer>();
+        //Renderers = new List<LineRenderer>();
         if (Lines == null) 
             return;
         print("kekus");
@@ -30,12 +32,21 @@ public class SavedEntry : MonoBehaviour
             var currLine = Lines[0];
             var currMat = Materials[0];
             var currTough = Toughness[0];
-            yield return AddLine(currLine, currMat, currTough);
+            if (synchronized)
+                StartCoroutine(AddLine(currLine, currMat, currTough));
+            else
+                yield return AddLine(currLine, currMat, currTough);
             Lines.RemoveAt(0);
             Materials.RemoveAt(0);
             Toughness.RemoveAt(0);
         }
+        
+        yield return 1;
     }
+
+    public Action Click;
+
+    public void OnMouseUpAsButton() => Click();
 
     public void Init()
     {
@@ -44,38 +55,34 @@ public class SavedEntry : MonoBehaviour
         Toughness = new List<bool>();
     }
 
-    public void Add(string line, string mat, bool tough)
+    public void Add(string line, string mat, bool tough, bool sync)
     {
         Lines.Add(line);
         Materials.Add(mat);
         Toughness.Add(tough);
+        synchronized = sync;
     }
 
     private IEnumerator AddLine(string line, string mat, bool tough)
     {
-        // var bruh = Instantiate(brush, transform);
-        // var lineRenderer = bruh.GetComponent<LineRenderer>();
-        // lineRenderer.material = null;
-        // lineRenderer.positionCount = 0;
         var realLine = line.ToVectList();
         for (var i = 0; i < realLine.Count - 1; i++) {
             var curr = realLine[i];
-            //lineRenderer.AddPoint(curr);
-            if (!tough)
-                yield break;
             var next = realLine[i + 1];
             var delta = next - curr;
             var center = curr + delta / 2;
             var len = delta.magnitude;
             var terr = Instantiate(terrainPref, transform);
-            terr.transform.position = center;
+            terr.transform.position = center+transform.position;
             terr.transform.localScale = new Vector3(len, 0.2f, 1);
             terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x)/Mathf.PI*180f);
+            if(!tough)
+                Destroy(terr.GetComponent<BoxCollider2D>());
             terr.GetComponent<SpriteRenderer>().material = mat.ToLower() switch
             {
-                "wood" => wood,
-                "earth" => earth,
-                "blood" => blood,
+                "1" => wood,
+                "2" => earth,
+                "0" => blood,
                 _ => default
             };
             yield return new WaitForSeconds(Time.deltaTime);

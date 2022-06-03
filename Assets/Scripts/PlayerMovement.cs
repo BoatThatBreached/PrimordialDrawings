@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
@@ -5,17 +8,46 @@ public class PlayerMovement : MonoBehaviour
     public CapsuleCollider2D playerCollider;
     public GameObject envObject;
     public Camera cam;
-    
+
+    private Dictionary<string, string> gradations;
+
+    private void Start()
+    {
+        gradations = new Dictionary<string, string>
+        {
+            ["sprout"]="tree",
+        };
+
+    }
+
     private void FixedUpdate()
     {
         if (Game.IsPaused)
             return;
         var right = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 10 * transform.right;
         transform.position += right;
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            SpawnObject("sprout");
+        }
         // if (Input.GetKeyDown(KeyCode.Space)
         //     && IsGrounded())
         //     GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 400));
     }
+
+    private void SpawnObject(string type)
+    {
+        var pos = cam.ScreenToWorldPoint(Input.mousePosition);
+        pos.z = 0;
+        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/{type}")).GetComponent<SavedEntry>();
+        obj.transform.position = pos;
+        obj.envType = type;
+        
+        obj.Click = gradations.ContainsKey(type)? ()=>SpawnObject(gradations[type]):_pass;
+        obj.Animate();
+    }
+
+    private readonly Action _pass = () => { };
 
     private void Update()
     {
