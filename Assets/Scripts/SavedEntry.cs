@@ -27,18 +27,12 @@ public class SavedEntry : MonoBehaviour
 
     private IEnumerator DrawLines()
     {
-        while (Lines.Count > 0)
+        for(var i = 0; i<Lines.Count; i++)
         {
-            var currLine = Lines[0];
-            var currMat = Materials[0];
-            var currTough = Toughness[0];
             if (synchronized)
-                StartCoroutine(AddLine(currLine, currMat, currTough));
+                StartCoroutine(AddLine(Lines[i], Materials[i], Toughness[i]));
             else
-                yield return AddLine(currLine, currMat, currTough);
-            Lines.RemoveAt(0);
-            Materials.RemoveAt(0);
-            Toughness.RemoveAt(0);
+                yield return AddLine(Lines[i], Materials[i], Toughness[i]);
         }
         
         yield return 1;
