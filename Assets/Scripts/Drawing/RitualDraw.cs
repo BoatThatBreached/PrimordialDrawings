@@ -38,7 +38,7 @@ public class RitualDraw : SelfDraw
 
     public bool Check()
     {
-        var newLines = container.Lines.Select(line => line.ToVectList().KeyPoints());
+        var newLines = container.Lines.Select(line => line.ToVectList());
         foreach (var line in original.Lines)
         {
             var realLine = line.ToVectList();
@@ -47,21 +47,19 @@ public class RitualDraw : SelfDraw
             {
                 var check = false;
                 foreach (var newLine in newLines)
+                {
                     foreach (var newPoint in newLine)
                     {
-                        if (Vector3.Distance(newPoint, keyPoint) <= 0.1f)
-                        {
-                            check = true;
-                            break;
-                        }
-                        if (check) break;
-                    }
+                        if (Vector3.Distance(newPoint, keyPoint) > 2f)
+                            continue;
+                        check = true;
+                        break;
 
-                if (!check)
-                    return false;
+                    }
+                    if (check) break;
+                }
             }
         }
-
         return true;
     }
 

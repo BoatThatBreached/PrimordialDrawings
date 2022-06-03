@@ -62,7 +62,6 @@ public class SavedEntry : MonoBehaviour
         var realLine = line.ToVectList();
         for (var i = 0; i < realLine.Count - 1; i++) {
             var curr = realLine[i];
-            Debug.Log(curr.x + " " + curr.y);
             var next = realLine[i + 1];
             var delta = next - curr;
             var center = curr + delta / 2;

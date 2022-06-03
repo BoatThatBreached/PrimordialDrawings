@@ -1,5 +1,7 @@
 using System;
+using System.Net.Mime;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Drawing
 {
@@ -16,7 +18,7 @@ namespace Drawing
             obj.Animate();
 
             GameObject.Find("Draw").GetComponent<RitualDraw>().original = obj.GetComponent<SavedEntry>();
-
+            GameObject.Find("Draw").GetComponent<RitualDraw>().title = title;
         }
     }
 }
