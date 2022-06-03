@@ -38,8 +38,8 @@ public class RitualDraw : SelfDraw
 
     public bool Check()
     {
-        var newLines = container.Lines.Select(line => line.ToVectList().KeyPoints());
-        foreach (var line in original.Lines)
+        var newLines = container.lines.Select(line => line.ToVectList().KeyPoints());
+        foreach (var line in original.lines)
         {
             var realLine = line.ToVectList();
             var keyPoints = realLine.KeyPoints();

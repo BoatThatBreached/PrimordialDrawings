@@ -6,42 +6,29 @@ using UnityEngine;
 
 public class SavedEntry : MonoBehaviour
 {
-    [SerializeField]public List<string> Lines;
-    [SerializeField]public List<string> Materials;
-    [SerializeField]public List<bool> Toughness;
+    [SerializeField]public List<string> lines;
+    [SerializeField]public List<string> materials;
+    [SerializeField]public List<bool> toughness;
     public GameObject terrainPref;
     public Material blood, earth, wood;
     public bool synchronized;
 
     public string envType;
-    //private List<LineRenderer> Renderers;
+    
     public void Animate()
     {
-        //Renderers = new List<LineRenderer>();
-        if (Lines == null) 
-            return;
-        print("kekus");
         StartCoroutine(DrawLines());
-
     }
 
     private IEnumerator DrawLines()
     {
-        while (Lines.Count > 0)
+        for(var i = 0; i<lines.Count; i++)
         {
-            var currLine = Lines[0];
-            var currMat = Materials[0];
-            var currTough = Toughness[0];
             if (synchronized)
-                StartCoroutine(AddLine(currLine, currMat, currTough));
+                StartCoroutine(AddLine(lines[i], materials[i], toughness[i]));
             else
-                yield return AddLine(currLine, currMat, currTough);
-            Lines.RemoveAt(0);
-            Materials.RemoveAt(0);
-            Toughness.RemoveAt(0);
+                yield return AddLine(lines[i], materials[i], toughness[i]);
         }
-        
-        yield return 1;
     }
 
     public Action Click;
@@ -50,16 +37,16 @@ public class SavedEntry : MonoBehaviour
 
     public void Init()
     {
-        Lines = new List<string>();
-        Materials = new List<string>();
-        Toughness = new List<bool>();
+        lines = new List<string>();
+        materials = new List<string>();
+        toughness = new List<bool>();
     }
 
     public void Add(string line, string mat, bool tough, bool sync)
     {
-        Lines.Add(line);
-        Materials.Add(mat);
-        Toughness.Add(tough);
+        lines.Add(line);
+        materials.Add(mat);
+        toughness.Add(tough);
         synchronized = sync;
     }
 
@@ -87,8 +74,6 @@ public class SavedEntry : MonoBehaviour
             };
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        // lineRenderer.AddPoint(realLine.Last());
-        // Renderers.Add(lineRenderer);
 
         yield return null;
     }
