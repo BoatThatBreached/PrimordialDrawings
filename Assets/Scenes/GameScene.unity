@@ -2696,6 +2696,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: envPref
       objectReference: {fileID: 0}
+    - target: {fileID: 2870260779343471993, guid: d0431d72e9d80a948b724d5415a74448, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0431d72e9d80a948b724d5415a74448, type: 3}
 --- !u!1 &223623933
@@ -6792,14 +6796,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 458933046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a7aaa0e33a763448b5bd43930667554, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d6352b51851e9349ab0163ea22e37d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mCamera: {fileID: 519420031}
   brush: {fileID: 6862706468669150495, guid: 03d719e82bd541f429603248743ae480, type: 3}
   currentLineRenderer: {fileID: 0}
+  lastPos: {x: 0, y: 0}
   game: {fileID: 243832849}
-  terrainMaterial: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
+  terrainMaterial: {fileID: 0}
 --- !u!4 &458933048
 Transform:
   m_ObjectHideFlags: 0

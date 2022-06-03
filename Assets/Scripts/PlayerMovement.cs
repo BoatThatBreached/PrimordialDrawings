@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         transform.position += right;
         if (Input.GetKeyDown(KeyCode.F))
         {
-            SpawnObject("sprout");
+            SpawnObject("boat");
         }
         // if (Input.GetKeyDown(KeyCode.Space)
         //     && IsGrounded())
