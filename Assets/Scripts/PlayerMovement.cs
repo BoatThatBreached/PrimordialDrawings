@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     public CapsuleCollider2D playerCollider;
@@ -12,9 +12,9 @@ public class PlayerMovement : MonoBehaviour
             return;
         var right = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 10 * transform.right;
         transform.position += right;
-        if (Input.GetKeyDown(KeyCode.Space)
-            && IsGrounded())
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 400));
+        // if (Input.GetKeyDown(KeyCode.Space)
+        //     && IsGrounded())
+        //     GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 400));
     }
 
     private void Update()
@@ -29,14 +29,28 @@ public class PlayerMovement : MonoBehaviour
             return;
         if(Input.GetMouseButtonDown(1)
             &&PlayerInfo.EnoughResources()
+            &&NotAnyObjectsClicked()
         )
         {
             var obj = Instantiate(envObject, cam.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity).GetComponent<EnvObject>();
             obj.type = PlayerInfo.ChosenType;
-            PlayerInfo.Spend();
-            Game.RefreshUI();
+            //PlayerInfo.Spend();
+            //Game.RefreshUI();
         }
+        
+        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Finish")))
+            SceneManager.LoadScene("MenuScene");
     }
 
-    private bool IsGrounded() => playerCollider.IsTouchingLayers(LayerMask.GetMask("Terrain"));
+    //private bool IsGrounded() => playerCollider.IsTouchingLayers(LayerMask.GetMask("Terrain"));
+    private bool NotAnyObjectsClicked()
+    {
+        var objs = FindObjectsOfType<EnvObject>();
+        foreach(var obj in objs){
+            if (obj.Clicked)
+                return false;
+        }
+
+return true;
+}
 }

@@ -14,6 +14,8 @@ public class EnvObject : MonoBehaviour
     private List<LineRenderer> Renderers;
     private List<Vector3> Centers;
     public CircleCollider2D circleCollider;
+    public bool Clicked => circleCollider.OverlapPoint(cam.ScreenToWorldPoint(Input.mousePosition));
+    
     private Camera cam;
     private void Start()
     {
@@ -112,19 +114,20 @@ public class EnvObject : MonoBehaviour
     {
         if (Game.IsPaused)
             return;
-        if(Input.GetMouseButtonDown(1)&&circleCollider.OverlapPoint(cam.ScreenToWorldPoint(Input.mousePosition)))
+        if(Input.GetMouseButtonDown(1)&&Clicked)
         {
-            print("Oof!");
-            if (PlayerInfo.Studied.Contains(type))
-            {
-                Use();
-            }
-            else
-            {
-                PlayerInfo.Studied.Add(type);
-                PlayerInfo.ChosenType = type;
-                Game.RefreshUI();
-            }
+            //print("Oof!");
+            Use();
+            // if (PlayerInfo.Studied.Contains(type))
+            // {
+            //     Use();
+            // }
+            // else
+            // {
+            //     PlayerInfo.Studied.Add(type);
+            //     PlayerInfo.ChosenType = type;
+            //     Game.RefreshUI();
+            // }
         }
     }
 

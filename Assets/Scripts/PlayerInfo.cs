@@ -15,16 +15,17 @@ public static class PlayerInfo
         Studied = new List<EnvType>();
         PaintsRemaining = new Dictionary<EnvPaints, int>
         {
-            [EnvPaints.Blood] = 0,
-            [EnvPaints.Earth] = 0,
-            [EnvPaints.Wood] = 0
+            [EnvPaints.Blood] = 4,
+            [EnvPaints.Earth] = 6,
+            [EnvPaints.Wood] = 10
         };
         MaxLevel = 1;
         Requirements = new Dictionary<EnvType, Dictionary<EnvPaints, int>>
         {
             [EnvType.Sprout] = CreateReq(0, 0, 2)
         };
-        ChosenIndex = -1;
+        ChosenType = EnvType.Sprout;
+        //ChosenIndex = -1;
     }
 
     public static bool EnoughResources()
