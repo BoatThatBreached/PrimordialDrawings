@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public CapsuleCollider2D playerCollider;
     public Camera cam;
+    public GameObject lastFire;
     //public GameObject colors;
     public List<SavedEntry> spawnedObjects;
 
@@ -17,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        //pizdec...
+        transform.position = lastFire.transform.position;
     }
 
     private void FixedUpdate()
@@ -48,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y < -30)
+            Die();
         if (Input.GetKeyDown(KeyCode.Escape))
             if (Game.IsPaused)
                 FindObjectOfType<Pause>().Resume();
@@ -92,8 +95,5 @@ public class PlayerMovement : MonoBehaviour
         // foreach (var act in delayedActions)
         //     act();
         
-
-        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Finish")))
-            SceneManager.LoadScene("MenuScene");
     }
 }
