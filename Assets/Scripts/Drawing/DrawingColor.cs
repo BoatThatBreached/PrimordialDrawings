@@ -9,11 +9,10 @@ namespace Drawing
         private SpriteRenderer cursorSprite;
         public bool chosen;
         public bool ritual;
-        private DrawingColor other;
 
         private void Start()
         {
-            cursorSprite = GameObject.Find("Cursor").GetComponent<SpriteRenderer>();
+            cursorSprite = GameObject.Find("Cursorus").GetComponent<SpriteRenderer>();
         }
 
         private void OnMouseDown()
@@ -26,7 +25,6 @@ namespace Drawing
                 _ => new Color(1, 1, 1)
             };
             chosen = true;
-            other.chosen = false;
         }
 
         private void Update()

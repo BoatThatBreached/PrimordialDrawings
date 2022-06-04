@@ -1267,6 +1267,7 @@ GameObject:
   - component: {fileID: 79694489}
   - component: {fileID: 79694491}
   - component: {fileID: 79694490}
+  - component: {fileID: 79694492}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -1354,6 +1355,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &79694492
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79694488}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.51
 --- !u!1 &88550416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1583,6 +1600,7 @@ GameObject:
   - component: {fileID: 96560782}
   - component: {fileID: 96560784}
   - component: {fileID: 96560783}
+  - component: {fileID: 96560785}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Untagged
@@ -1670,6 +1688,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &96560785
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96560781}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.51
 --- !u!1 &103146116
 GameObject:
   m_ObjectHideFlags: 0
@@ -6118,7 +6152,7 @@ GameObject:
   - component: {fileID: 393268277}
   - component: {fileID: 393268276}
   m_Layer: 0
-  m_Name: Cursor
+  m_Name: Cursorus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13095,6 +13129,7 @@ GameObject:
   - component: {fileID: 961380484}
   - component: {fileID: 961380486}
   - component: {fileID: 961380485}
+  - component: {fileID: 961380487}
   m_Layer: 0
   m_Name: Blood
   m_TagString: Untagged
@@ -13182,6 +13217,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &961380487
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961380483}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.51
 --- !u!1 &967010006
 GameObject:
   m_ObjectHideFlags: 0

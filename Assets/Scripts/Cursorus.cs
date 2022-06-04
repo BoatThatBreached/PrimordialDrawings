@@ -1,9 +1,7 @@
-using System;
+
 using UnityEngine;
 
-namespace DefaultNamespace
-{
-    public class Cursor : MonoBehaviour
+    public class Cursorus : MonoBehaviour
     {
         private static bool exists;
 
@@ -13,6 +11,7 @@ namespace DefaultNamespace
                 Destroy(gameObject);
             else
                 exists = true;
+            Cursor.visible = false;
             DontDestroyOnLoad(gameObject);
         }
 
@@ -22,4 +21,3 @@ namespace DefaultNamespace
             transform.position = new Vector3(pos.x, pos.y, 0);
         }
     }
-}
