@@ -10,7 +10,7 @@ public class SelfDraw: MonoBehaviour
     public LineRenderer currentLineRenderer;
     public Vector2 lastPos;
     public float totalPoints;
-    public float maxPoints = 100000;
+    public float maxPoints = 10000;
 
     public void CreateBrush()
     {
