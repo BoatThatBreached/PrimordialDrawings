@@ -2,16 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="874aa7e9-a613-46f7-ae5b-fc7a2d484842" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/RitualDraw.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/RitualDraw.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DevDraw.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/DevDraw.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DevDraw.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/DevDraw.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MouseDraw.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/MouseDraw.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MouseDraw.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/MouseDraw.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SelfDraw.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/SelfDraw.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SelfDraw.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/SelfDraw.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Primordial/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Primordial/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/boat.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/boat.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/saddle.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/saddle.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/spear.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/spear.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/sprout.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/sprout.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/your_saddle.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/your_saddle.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/your_spear.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/your_spear.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/DrawScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/DrawScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Drawing/RitualDraw.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/RitualDraw.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Drawing/RitualOriginal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Drawing/RitualOriginal.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SavedEntry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SavedEntry.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +35,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">

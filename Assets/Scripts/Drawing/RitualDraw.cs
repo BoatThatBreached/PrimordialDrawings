@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -15,6 +16,11 @@ public class RitualDraw : SelfDraw
     public bool isTough;
     public bool isSync;
 
+    private void Start()
+    {
+        container.Init();
+    }
+    
     public void Save()
     {
         if (!Check())
@@ -25,6 +31,13 @@ public class RitualDraw : SelfDraw
         PrefabUtility.SaveAsPrefabAsset(container.gameObject, $"Assets/Resources/Prefabs/your_{title}.prefab");
         Game.Clear(container.transform);
         container.Init();
+    }
+
+    private IEnumerable Wrong()
+    {
+        container.ChangeMaterial(container.wrong);
+        yield return new WaitForSeconds(1f);
+        container.ChangeMaterial(container.wrong);
     }
 
     public void Clear()
@@ -62,12 +75,6 @@ public class RitualDraw : SelfDraw
         }
         return true;
     }
-
-    private void Start()
-    {
-        container.Init();
-    }
-
     private void Update() => Render(Confirm);
 
     private void Confirm()

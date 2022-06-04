@@ -10,7 +10,7 @@ public class SavedEntry : MonoBehaviour
     [SerializeField]public List<string> Materials;
     [SerializeField]public List<bool> Toughness;
     public GameObject terrainPref;
-    public Material blood, earth, wood;
+    public Material blood, earth, wood, wrong;
     public bool synchronized;
 
     public string envType;
@@ -22,7 +22,19 @@ public class SavedEntry : MonoBehaviour
             return;
         print("kekus");
         StartCoroutine(DrawLines());
-
+    }
+    
+    public void ChangeMaterial(Material material)
+    {
+        var allObjects = GameObject.FindGameObjectsWithTag("Untagged");
+        foreach (var obj in allObjects)
+        {
+            if (obj.GetComponent<SpriteRenderer>() != null)
+            {
+                obj.GetComponent<SpriteRenderer>().material = material;
+                Debug.Log("!");
+            }
+        }
     }
 
     private IEnumerator DrawLines()
