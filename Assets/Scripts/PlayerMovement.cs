@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public CapsuleCollider2D playerCollider;
     public Camera cam;
+    public List<SavedEntry> spawnedObjects;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         obj.envType = type;
 
         obj.Click = PlayerInfo.Gradation.ContainsKey(type) ? () => SpawnObject(PlayerInfo.Gradation[type]) : _pass;
+        spawnedObjects.Add(obj);
         obj.Animate();
     }
 
@@ -59,6 +61,12 @@ public class PlayerMovement : MonoBehaviour
             PlayerInfo.Learned.Add("tiger");
             PlayerInfo.Learned.Add("spear");
             PlayerInfo.Learned.Add("tree");
+            PlayerInfo.Learned.Add("creatureLeg");
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            foreach(var o in spawnedObjects)
+                StartCoroutine(o.Change());
         }
 
         if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Finish")))

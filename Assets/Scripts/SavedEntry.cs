@@ -47,11 +47,68 @@ public class SavedEntry : MonoBehaviour
             else
                 yield return AddLine(Lines[i], Materials[i], Toughness[i]);
         }
-        
-        yield return 1;
     }
 
     public Action Click;
+
+    public IEnumerator Change()
+    {
+        if (envType != "creatureLeg")
+            yield break;
+        var alpha = -Mathf.PI / 20;
+        var cosA = Mathf.Cos((alpha));
+        var sinA = Mathf.Sin((alpha));
+        for (var i = 0; i < 10; i++)
+        {
+            Game.Clear(transform);
+            var line = Lines[0].ToVectList();
+            var rotatingCenter = line[0];
+            var moving = line.GetRange(line.Count/2, line.Count / 2);
+            var rotating = line.GetRange(0, line.Count / 2);
+        
+            rotating = rotating
+                .Select(v => v - rotatingCenter)
+                .Select(v=>new Vector3(v.x*cosA+v.y*sinA, -v.x*sinA+v.y*cosA))
+                .Select(v=>v+rotatingCenter).ToList();
+            var movingCenter = rotating.Last();
+            var moveDelta = rotating.Last() - moving[0];
+            moving = moving.Select(v => v + moveDelta).ToList();
+
+            var newLine = new List<Vector3>(rotating);
+            newLine.AddRange(moving);
+            Lines[0] = newLine.ToStrList();
+            AddLineMomentum(Lines[0], Materials[0], Toughness[0]);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        alpha = Mathf.PI / 20;
+        cosA = Mathf.Cos((alpha));
+        sinA = Mathf.Sin((alpha));
+        for (var i = 0; i < 10; i++)
+        {
+            Game.Clear(transform);
+            var line = Lines[0].ToVectList();
+            var rotatingCenter = line[0];
+            var moving = line.GetRange(line.Count/2, line.Count / 2);
+            var rotating = line.GetRange(0, line.Count / 2);
+        
+            rotating = rotating
+                .Select(v => v - rotatingCenter)
+                .Select(v=>new Vector3(v.x*cosA+v.y*sinA, -v.x*sinA+v.y*cosA))
+                .Select(v=>v+rotatingCenter).ToList();
+            var movingCenter = rotating.Last();
+            var moveDelta = rotating.Last() - moving[0];
+            moving = moving.Select(v => v + moveDelta).ToList();
+
+            var newLine = new List<Vector3>(rotating);
+            newLine.AddRange(moving);
+            Lines[0] = newLine.ToStrList();
+            AddLineMomentum(Lines[0], Materials[0], Toughness[0]);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        
+        
+    }
 
     public void OnMouseUpAsButton() => Click();
 
@@ -69,6 +126,32 @@ public class SavedEntry : MonoBehaviour
         Materials.Add(mat);
         Toughness.Add(tough);
         synchronized = sync;
+    }
+    
+    private void AddLineMomentum(string line, string mat, bool tough)
+    {
+        var realLine = line.ToVectList();
+        totalPoints += realLine.Count;
+        for (var i = 0; i < realLine.Count - 1; i++) {
+            var curr = realLine[i];
+            var next = realLine[i + 1];
+            var delta = next - curr;
+            var center = curr + delta / 2;
+            var len = delta.magnitude;
+            var terr = Instantiate(terrainPref, transform);
+            terr.transform.position = center+transform.position;
+            terr.transform.localScale = new Vector3(len, 0.2f, 1);
+            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x)/Mathf.PI*180f);
+            if(!tough)
+                Destroy(terr.GetComponent<BoxCollider2D>());
+            terr.GetComponent<SpriteRenderer>().material = mat.ToLower() switch
+            {
+                "1" => wood,
+                "2" => earth,
+                "0" => blood,
+                _ => default
+            };
+        }
     }
 
     private IEnumerator AddLine(string line, string mat, bool tough)
@@ -96,10 +179,6 @@ public class SavedEntry : MonoBehaviour
             };
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        // lineRenderer.AddPoint(realLine.Last());
-        // Renderers.Add(lineRenderer);
-
-        yield return null;
     }
 
 }
