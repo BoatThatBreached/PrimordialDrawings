@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpawnObject(string type)
     {
+        if (type == "saddle")
+            return;
         var pos = cam.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;
         var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_{type}")).GetComponent<SavedEntry>();
@@ -58,18 +60,19 @@ public class PlayerMovement : MonoBehaviour
         {
             SpawnObject(PlayerInfo.CurrentType);
         }
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     PlayerInfo.Learned.Add("sprout");
-        //     PlayerInfo.Learned.Add("boat");
-        //     PlayerInfo.Learned.Add("buffalo leg");
-        //     PlayerInfo.Learned.Add("buffalo");
-        //     PlayerInfo.Learned.Add("tiger leg");
-        //     PlayerInfo.Learned.Add("tiger");
-        //     PlayerInfo.Learned.Add("spear");
-        //     PlayerInfo.Learned.Add("tree");
-        //     PlayerInfo.Learned.Add("creatureLeg");
-        // }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerInfo.Learned.Add("saddle");
+            PlayerInfo.Learned.Add("sprout");
+            PlayerInfo.Learned.Add("boat");
+            PlayerInfo.Learned.Add("buffalo leg");
+            PlayerInfo.Learned.Add("buffalo");
+            PlayerInfo.Learned.Add("tiger leg");
+            PlayerInfo.Learned.Add("tiger");
+            PlayerInfo.Learned.Add("spear");
+            PlayerInfo.Learned.Add("tree");
+            PlayerInfo.Learned.Add("creatureLeg");
+        }
         // if (Input.GetKeyDown(KeyCode.K))
         // {
         //     foreach(var o in spawnedObjects)

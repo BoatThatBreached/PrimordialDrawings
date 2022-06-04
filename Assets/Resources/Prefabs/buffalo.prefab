@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109232288}
   - component: {fileID: 2109232289}
+  - component: {fileID: 3102330781789289535}
   m_Layer: 0
   m_Name: buffalo
   m_TagString: Untagged
@@ -68,5 +69,24 @@ MonoBehaviour:
   blood: {fileID: 2100000, guid: 9c4a5294737f5a44cb382060f4c505c4, type: 2}
   earth: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
   wood: {fileID: 2100000, guid: 564b8941f14e35d4d97b66bc377109c6, type: 2}
+  original: {fileID: 0}
+  totalPoints: 0
   synchronized: 1
   envType: 
+--- !u!114 &3102330781789289535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d3fba058be4cf4a2d6b0d23664fb7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: buffalo
+  saddled: 0
+  leftWall: {fileID: 0}
+  rightWall: {fileID: 0}
+  body: {fileID: 2109232289}

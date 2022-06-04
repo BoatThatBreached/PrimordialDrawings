@@ -34,7 +34,6 @@ public class SavedEntry : MonoBehaviour
         //Renderers = new List<LineRenderer>();
         if (Lines == null) 
             return;
-        print("kekus");
         StartCoroutine(DrawLines());
     }
     
