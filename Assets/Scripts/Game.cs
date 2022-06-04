@@ -37,7 +37,9 @@ public class Game : MonoBehaviour
             terr.transform.position = center;
             terr.transform.localScale = new Vector3(len, 0.2f, 1);
             terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x)/Mathf.PI*180f);
+            terr.GetComponent<SpriteRenderer>().color = Color.black;
         }
+        Destroy(lineRenderer);
     }
 
     private void FixedUpdate()

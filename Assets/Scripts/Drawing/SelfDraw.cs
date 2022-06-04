@@ -9,7 +9,7 @@ public class SelfDraw: MonoBehaviour
     public GameObject brush;
     public LineRenderer currentLineRenderer;
     public Vector2 lastPos;
-    public float totalPoints = 0;
+    public float totalPoints;
     public float maxPoints = 100000;
 
     public void CreateBrush()
@@ -32,13 +32,13 @@ public class SelfDraw: MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
             CreateBrush();
-        if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0))
         {
             Vector2 mousePos = mCamera.ScreenToWorldPoint(Input.mousePosition);
             var len = (mousePos - lastPos).magnitude;
-            if (len < 0.05f)
+            if (len < 0.2f)
                 return;
-            totalPoints++;
+            totalPoints += 0.1f;
             if (totalPoints > maxPoints)
             {
                 totalPoints = maxPoints;
@@ -49,6 +49,9 @@ public class SelfDraw: MonoBehaviour
             lastPos = mousePos;
         }
         else if (currentLineRenderer)
+        {
+            
             flush();
+        }
     }
 }

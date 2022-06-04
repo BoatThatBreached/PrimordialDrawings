@@ -23,7 +23,6 @@ public class MouseDraw : SelfDraw
                 .Select(currentLineRenderer.GetPosition)
                 .ToList();
         var path2 = path.Select(v => new Vector2(v.x, v.y)).ToList();
-        totalPoints += path2.Count;
         game.AddTerrains(path2.ToList(), currentLineRenderer);
         currentLineRenderer = null;
     }

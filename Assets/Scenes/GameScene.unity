@@ -1302,6 +1302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: wood
   chosen: 0
+  ritual: 0
 --- !u!212 &79694491
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1617,6 +1618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: earth
   chosen: 1
+  ritual: 0
 --- !u!212 &96560784
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6790,7 +6792,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 4.9999995}
+  m_AnchoredPosition: {x: 0, y: 5}
   m_SizeDelta: {x: 0, y: -10.000001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &430105696
@@ -9805,6 +9807,8 @@ GameObject:
   - component: {fileID: 639026534}
   - component: {fileID: 639026533}
   - component: {fileID: 639026537}
+  - component: {fileID: 639026539}
+  - component: {fileID: 639026538}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -9861,8 +9865,8 @@ Canvas:
   m_GameObject: {fileID: 639026532}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -9909,6 +9913,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 114334143}
+--- !u!114 &639026538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639026532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e177a379ab24b6d41affa8e30da4b5c2, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &639026539
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639026532}
+  m_CullTransparentMesh: 1
 --- !u!1 &645285230
 GameObject:
   m_ObjectHideFlags: 0
@@ -13088,6 +13130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: blood
   chosen: 0
+  ritual: 0
 --- !u!212 &961380486
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -33259,6 +33302,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCollider: {fileID: 2013965559}
   cam: {fileID: 519420031}
+  colors: {fileID: 1757308011}
+  spawnedObjects: []
 --- !u!70 &2013965559
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
