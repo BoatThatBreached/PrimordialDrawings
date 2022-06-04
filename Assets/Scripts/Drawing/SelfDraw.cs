@@ -40,7 +40,11 @@ public class SelfDraw: MonoBehaviour
                 return;
             totalPoints++;
             if (totalPoints > maxPoints)
+            {
+                totalPoints = maxPoints;
                 return;
+            }
+
             AddPoint(mousePos);
             lastPos = mousePos;
         }

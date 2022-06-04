@@ -1616,7 +1616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: earth
-  chosen: 0
+  chosen: 1
 --- !u!212 &96560784
 SpriteRenderer:
   m_ObjectHideFlags: 0

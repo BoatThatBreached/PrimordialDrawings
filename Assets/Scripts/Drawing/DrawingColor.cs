@@ -8,6 +8,7 @@ namespace Drawing
         public string material;
         private SpriteRenderer cursorSprite;
         public bool chosen;
+        public bool ritual;
         private DrawingColor other;
 
         private void Start()
@@ -32,7 +33,14 @@ namespace Drawing
         {
             if (!chosen)
                 return;
-            var scale = PlayerInfo.Paints[material];
+            float scale;
+            if (ritual)
+            {
+                var ritualDraw = GameObject.Find("Draw").GetComponent<RitualDraw>();
+                scale = (ritualDraw.maxPoints - ritualDraw.totalPoints) / ritualDraw.maxPoints;
+            }
+            else
+                scale = PlayerInfo.Paints[material];
             transform.localScale = new Vector3(scale, scale, 1);
         }
     }
