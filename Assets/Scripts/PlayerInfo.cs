@@ -8,12 +8,19 @@ public static class PlayerInfo
     public static Dictionary<string, string> Gradation;
     public static string CurrentType => Learned.Count == 0 ? "" : Learned[_currentIndex%Learned.Count];
     public static bool CanSpawnCurrentType => Learned.Count != 0;
+    public static Dictionary<string, float> Paints;
 
     public static void Reset()
     {
         Learned = new List<string>();
         _currentIndex = 0;
         Gradation = new Dictionary<string, string> {["sprout"] = "tree"};
+        Paints = new Dictionary<string, float>
+        {
+            ["earth"] = 1,
+            ["wood"] = 1,
+            ["blood"] = 1
+        };
     }
 
     public static void UpdateIndex(int i)
