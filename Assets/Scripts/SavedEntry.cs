@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 
 public class SavedEntry : MonoBehaviour
@@ -16,6 +17,34 @@ public class SavedEntry : MonoBehaviour
 
     public string envType;
     private float minX, minY, maxX, maxY;
+    private bool moving;
+    private float direction;
+    public void Move(float dir)
+    {
+        moving = true;
+        direction = dir;
+
+        if (envType == "spear")
+        {
+            var tigers = FindObjectsOfType<Animal>();
+            foreach(var t in tigers)
+                if (Vector3.Distance(t.transform.position, transform.position) < 1f)
+                {
+                    Destroy(t.gameObject);
+                    Destroy(gameObject);
+                    return;
+                }
+        }
+    }
+
+    private void Update()
+    {
+        if (moving)
+        {
+            transform.position += new Vector3(1, direction, 0) * Time.deltaTime * 20;
+        }
+    }
+
     public void Start()
     {
         if (Lines == null||Lines.Count==0)
@@ -29,13 +58,13 @@ public class SavedEntry : MonoBehaviour
     }
 
     //private List<LineRenderer> Renderers;
-    public void Animate()
+    public void Animate(Action finish)
     {
         //Renderers = new List<LineRenderer>();
         if (Lines == null) 
             return;
         print("kekus");
-        StartCoroutine(DrawLines());
+        StartCoroutine(DrawLines(finish));
     }
     
     public void ChangeMaterial(Material material)
@@ -51,7 +80,7 @@ public class SavedEntry : MonoBehaviour
         }
     }
 
-    private IEnumerator DrawLines()
+    private IEnumerator DrawLines(Action finish)
     {
         for(var i = 0; i<Lines.Count; i++)
         {
@@ -60,6 +89,8 @@ public class SavedEntry : MonoBehaviour
             else
                 yield return AddLine(Lines[i], Materials[i], Toughness[i]);
         }
+
+        finish();
     }
 
     public Action Click;
@@ -183,12 +214,12 @@ public class SavedEntry : MonoBehaviour
             terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x)/Mathf.PI*180f);
             if(!tough)
                 Destroy(terr.GetComponent<BoxCollider2D>());
-            terr.GetComponent<SpriteRenderer>().material = mat.ToLower() switch
+            terr.GetComponent<SpriteRenderer>().color = mat.ToLower() switch
             {
-                "1" => wood,
-                "2" => earth,
-                "0" => blood,
-                _ => default
+                "0" => new Color(0.4078431f, 0, 0),
+                "1" => new Color(1, 0.5714479f, 0),
+                "2" => Color.black,
+                _ => Color.white
             };
             yield return new WaitForSeconds(Time.deltaTime);
         }

@@ -25,7 +25,7 @@ namespace DefaultNamespace
                 var obj = Instantiate(Resources.Load<GameObject>
                     ("Prefabs/saddle)).GetComponent<SavedEntry>();"));
                 obj.transform.position = transform.position;
-                obj.GetComponent<SavedEntry>().Animate();
+                obj.GetComponent<SavedEntry>().Animate(PlayerInfo.Pass);
             }
         }
 

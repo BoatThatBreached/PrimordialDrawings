@@ -7,8 +7,12 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     public CapsuleCollider2D playerCollider;
+
     public Camera cam;
+
     //public GameObject colors;
+    private bool _armed;
+    private Transform spear;
     public List<SavedEntry> spawnedObjects;
 
     private void Start()
@@ -26,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         var right = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 10 * transform.right;
         transform.position += right;
-        //colors.transform.position = Camera.main.transform.position + new Vector3(-15, 8, 10);
     }
 
     private void SpawnObject(string type)
@@ -35,14 +38,27 @@ public class PlayerMovement : MonoBehaviour
         pos.z = 0;
         var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_{type}")).GetComponent<SavedEntry>();
         obj.transform.position = pos;
+        if (type == "spear")
+        {
+            obj.transform.SetParent(transform);
+            
+        }
+
         obj.envType = type;
 
-        obj.Click = PlayerInfo.Gradation.ContainsKey(type) ? () => SpawnObject(PlayerInfo.Gradation[type]) : _pass;
+        obj.Click = PlayerInfo.Gradation.ContainsKey(type)
+            ? () => SpawnObject(PlayerInfo.Gradation[type])
+            : PlayerInfo.Pass;
         spawnedObjects.Add(obj);
-        obj.Animate();
+        obj.Animate(() =>
+        {
+            spear = obj.transform;
+            spear.localEulerAngles = new Vector3(0, 0, 45);
+            spear.transform.localPosition = new Vector3(4.7f, 0, 4.5f);
+            _armed = true;
+        });
     }
 
-    private readonly Action _pass = () => { };
 
     private void Update()
     {
@@ -54,27 +70,30 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Rigidbody2D>().simulated = !Game.IsPaused;
         if (Game.IsPaused)
             return;
-        if (Input.GetMouseButtonDown(1)&&PlayerInfo.CanSpawnCurrentType)
+        if (Input.GetMouseButtonDown(1) && PlayerInfo.CanSpawnCurrentType)
         {
             SpawnObject(PlayerInfo.CurrentType);
         }
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     PlayerInfo.Learned.Add("sprout");
-        //     PlayerInfo.Learned.Add("boat");
-        //     PlayerInfo.Learned.Add("buffalo leg");
-        //     PlayerInfo.Learned.Add("buffalo");
-        //     PlayerInfo.Learned.Add("tiger leg");
-        //     PlayerInfo.Learned.Add("tiger");
-        //     PlayerInfo.Learned.Add("spear");
-        //     PlayerInfo.Learned.Add("tree");
-        //     PlayerInfo.Learned.Add("creatureLeg");
-        // }
-        // if (Input.GetKeyDown(KeyCode.K))
-        // {
-        //     foreach(var o in spawnedObjects)
-        //         StartCoroutine(o.Change());
-        // }
+
+        if (_armed)
+        {
+            //spear.localEulerAngles = Mathf.Atan2(Input)Vector3.forward);
+            var mpos = cam.ScreenToWorldPoint(Input.mousePosition)-cam.transform.position;
+            var direction = Mathf.Atan2(mpos.y, mpos.x);
+            spear.localEulerAngles = direction / Mathf.PI * 180 * Vector3.forward;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _armed = false;
+                spear.SetParent(transform.parent);
+                spear.GetComponent<SavedEntry>().Move(direction);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            foreach(var o in spawnedObjects)
+                StartCoroutine(o.Change());
+        }
 
         // var delayedActions = new List<Action>();
         // foreach (var o in spawnedObjects.Where(o => o.Clicked()))
@@ -88,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
         // foreach (var act in delayedActions)
         //     act();
-        
+
 
         if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Finish")))
             SceneManager.LoadScene("MenuScene");

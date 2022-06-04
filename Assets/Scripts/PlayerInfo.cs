@@ -13,7 +13,7 @@ public static class PlayerInfo
     public static string WantedToLearn;
 
     public static Dictionary<string, float> Paints;
-
+    public static Action Pass = () => { };
     public static void Reset()
     {
         Changed = false;

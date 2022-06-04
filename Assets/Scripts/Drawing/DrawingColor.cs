@@ -19,9 +19,9 @@ namespace Drawing
         {
             cursorSprite.color = material switch
             {
-                "blood" => new Color(0.4078431f, 0, 0),
-                "wood" => new Color(1, 0.5714479f, 0),
-                "earth" => Color.black,
+                "0" => new Color(0.4078431f, 0, 0),
+                "1" => new Color(1, 0.5714479f, 0),
+                "2" => Color.black,
                 _ => new Color(1, 1, 1)
             };
             chosen = true;

@@ -7,7 +7,7 @@ public class Unliving:MonoBehaviour
 
     public void Start()
     {
-        body.Animate();
+        body.Animate(PlayerInfo.Pass);
     }
 
     public void Update()
