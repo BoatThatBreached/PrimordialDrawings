@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Camera cam;
 
+    public GameObject lastFire;
     //public GameObject colors;
     private bool _armed;
     private Transform spear;
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        //pizdec...
+        transform.position = lastFire.transform.position;
     }
 
     private void FixedUpdate()
@@ -34,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpawnObject(string type)
     {
+        if (type == "saddle")
+            return;
         var pos = cam.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;
         var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_{type}")).GetComponent<SavedEntry>();
@@ -62,6 +65,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y < -30)
+            Die();
         if (Input.GetKeyDown(KeyCode.Escape))
             if (Game.IsPaused)
                 FindObjectOfType<Pause>().Resume();
@@ -107,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
 
         // foreach (var act in delayedActions)
         //     act();
+        
 
 
         if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Finish")))

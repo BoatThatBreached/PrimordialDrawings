@@ -10,10 +10,14 @@ namespace DefaultNamespace
         public bool saddled;
         public GameObject leftWall;
         public GameObject rightWall;
+        public SavedEntry body;
+
         private float dx;
 
         private void Start()
         {
+            body.Animate(PlayerInfo.Pass);
+            body.Click = () => Saddle();
             dx = 0.1f;
         }
 
@@ -23,7 +27,7 @@ namespace DefaultNamespace
             {
                 saddled = true;
                 var obj = Instantiate(Resources.Load<GameObject>
-                    ("Prefabs/saddle)).GetComponent<SavedEntry>();"));
+                    ("Prefabs/your_saddle)).GetComponent<SavedEntry>();"), gameObject.transform, true);
                 obj.transform.position = transform.position;
                 obj.GetComponent<SavedEntry>().Animate(PlayerInfo.Pass);
             }
@@ -46,6 +50,8 @@ namespace DefaultNamespace
             }
             else if (other.gameObject == leftWall && type == "tiger")
                 dx = -dx;
+            else if (other.gameObject.name == "spear" && type == "tiger")
+                Destroy(gameObject);
         }
 
         private void Update()
