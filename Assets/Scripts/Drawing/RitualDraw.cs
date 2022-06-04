@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEditor;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RitualDraw : SelfDraw
@@ -20,6 +22,12 @@ public class RitualDraw : SelfDraw
     {
         maxPoints = original.totalPoints * 1.5f;
         container.Init();
+        material = PlayerInfo.WantedToLearn switch
+        {
+            "spear" => "1",
+            "sprout" => "1",
+            _ => "2"
+        };
     }
     
     public void Save()
@@ -27,11 +35,20 @@ public class RitualDraw : SelfDraw
         if (!Check())
         {
             Debug.Log("Try again!");
+            Game.Clear(container.transform);
+            container.Init();
             return;
         }
+
+        container.envType = PlayerInfo.WantedToLearn;
+        PlayerInfo.Learned.Add(container.envType);
+        PlayerInfo.Changed = true;
         PrefabUtility.SaveAsPrefabAsset(container.gameObject, $"Assets/Resources/Prefabs/your_{title}.prefab");
         Game.Clear(container.transform);
         container.Init();
+
+        SceneManager.LoadScene("GameScene");
+
     }
     
     public void Clear()
@@ -57,7 +74,7 @@ public class RitualDraw : SelfDraw
                 {
                     foreach (var newPoint in newLine)
                     {
-                        if (Vector3.Distance(newPoint, keyPoint) > 0.5f)
+                        if (Vector3.Distance(newPoint, keyPoint) > 0.1f)
                             continue;
                         check = true;
                         break;

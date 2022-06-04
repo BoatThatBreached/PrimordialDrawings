@@ -15,7 +15,8 @@ public class Game : MonoBehaviour
     public static bool IsPaused;
     private void Awake()
     {
-        PlayerInfo.Reset();
+        if(!PlayerInfo.Changed)
+            PlayerInfo.Reset();
         IsPaused = false;
         //Renderers = new List<LineRenderer>();
         //Centers = new List<Vector3>();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,11 +9,16 @@ public class PlayerMovement : MonoBehaviour
 {
     public CapsuleCollider2D playerCollider;
     public Camera cam;
-    public GameObject colors;
+    //public GameObject colors;
     public List<SavedEntry> spawnedObjects;
 
     private void Start()
     {
+    }
+
+    public void Die()
+    {
+        //pizdec...
     }
 
     private void FixedUpdate()
@@ -21,14 +27,14 @@ public class PlayerMovement : MonoBehaviour
             return;
         var right = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 10 * transform.right;
         transform.position += right;
-        colors.transform.position = Camera.main.transform.position + new Vector3(-15, 8, 10);
+        //colors.transform.position = Camera.main.transform.position + new Vector3(-15, 8, 10);
     }
 
     private void SpawnObject(string type)
     {
         var pos = cam.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;
-        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/{type}")).GetComponent<SavedEntry>();
+        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_{type}")).GetComponent<SavedEntry>();
         obj.transform.position = pos;
         obj.envType = type;
 
@@ -53,23 +59,37 @@ public class PlayerMovement : MonoBehaviour
         {
             SpawnObject(PlayerInfo.CurrentType);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerInfo.Learned.Add("sprout");
-            PlayerInfo.Learned.Add("boat");
-            PlayerInfo.Learned.Add("buffalo leg");
-            PlayerInfo.Learned.Add("buffalo");
-            PlayerInfo.Learned.Add("tiger leg");
-            PlayerInfo.Learned.Add("tiger");
-            PlayerInfo.Learned.Add("spear");
-            PlayerInfo.Learned.Add("tree");
-            PlayerInfo.Learned.Add("creatureLeg");
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            foreach(var o in spawnedObjects)
-                StartCoroutine(o.Change());
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     PlayerInfo.Learned.Add("sprout");
+        //     PlayerInfo.Learned.Add("boat");
+        //     PlayerInfo.Learned.Add("buffalo leg");
+        //     PlayerInfo.Learned.Add("buffalo");
+        //     PlayerInfo.Learned.Add("tiger leg");
+        //     PlayerInfo.Learned.Add("tiger");
+        //     PlayerInfo.Learned.Add("spear");
+        //     PlayerInfo.Learned.Add("tree");
+        //     PlayerInfo.Learned.Add("creatureLeg");
+        // }
+        // if (Input.GetKeyDown(KeyCode.K))
+        // {
+        //     foreach(var o in spawnedObjects)
+        //         StartCoroutine(o.Change());
+        // }
+
+        // var delayedActions = new List<Action>();
+        // foreach (var o in spawnedObjects.Where(o => o.Clicked()))
+        // {
+        //     print(o.envType);
+        //     if (PlayerInfo.Learned.Contains(o.envType))
+        //         delayedActions.Add(o.Click);
+        //     else
+        //         SceneManager.LoadScene("DrawScene");
+        // }
+
+        // foreach (var act in delayedActions)
+        //     act();
+        
 
         if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Finish")))
             SceneManager.LoadScene("MenuScene");

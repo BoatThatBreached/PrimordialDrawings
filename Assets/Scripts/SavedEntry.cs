@@ -15,6 +15,19 @@ public class SavedEntry : MonoBehaviour
     public bool synchronized;
 
     public string envType;
+    private float minX, minY, maxX, maxY;
+    public void Start()
+    {
+        if (Lines == null||Lines.Count==0)
+            return;
+        var points = Lines.Select(line => line.ToVectList()).SelectMany(l => l).ToList();
+        minX = points.Min(v => v.x)+transform.position.x;
+        minY = points.Min(v => v.y)+transform.position.y;
+        maxX = points.Max(v => v.x)+transform.position.x;
+        maxY = points.Max(v => v.y)+transform.position.y;
+
+    }
+
     //private List<LineRenderer> Renderers;
     public void Animate()
     {
@@ -179,6 +192,12 @@ public class SavedEntry : MonoBehaviour
             };
             yield return new WaitForSeconds(Time.deltaTime);
         }
+    }
+
+    public bool Clicked()
+    {
+        var mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return Input.GetMouseButtonDown(0)&&minX <= mpos.x && mpos.x <= maxX && minY <= mpos.y && mpos.y <= maxY;
     }
 
 }
