@@ -80,8 +80,6 @@ public class RitualDraw : SelfDraw
         }
         currentLineRenderer.transform.SetParent(transform);
         
-        Debug.Log(maxPoints + " " + totalPoints);
-        
         var path = 
             Enumerable
                 .Range(0, currentLineRenderer.positionCount)

@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public CapsuleCollider2D playerCollider;
     public Camera cam;
+    public GameObject colors;
     public List<SavedEntry> spawnedObjects;
 
     private void Start()
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         var right = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 10 * transform.right;
         transform.position += right;
+        colors.transform.position = Camera.main.transform.position + new Vector3(-15, 8, 10);
     }
 
     private void SpawnObject(string type)
