@@ -10,7 +10,8 @@ public class SavedEntry : MonoBehaviour
     [SerializeField]public List<string> Materials;
     [SerializeField]public List<bool> Toughness;
     public GameObject terrainPref;
-    public Material blood, earth, wood, wrong;
+    public Material blood, earth, wood, original;
+    public int totalPoints;
     public bool synchronized;
 
     public string envType;
@@ -56,6 +57,7 @@ public class SavedEntry : MonoBehaviour
 
     public void Init()
     {
+        totalPoints = 0;
         Lines = new List<string>();
         Materials = new List<string>();
         Toughness = new List<bool>();
@@ -72,6 +74,7 @@ public class SavedEntry : MonoBehaviour
     private IEnumerator AddLine(string line, string mat, bool tough)
     {
         var realLine = line.ToVectList();
+        totalPoints += realLine.Count;
         for (var i = 0; i < realLine.Count - 1; i++) {
             var curr = realLine[i];
             var next = realLine[i + 1];

@@ -18,6 +18,7 @@ public class RitualDraw : SelfDraw
 
     private void Start()
     {
+        maxPoints = original.totalPoints * 1.5f;
         container.Init();
     }
     
@@ -32,14 +33,7 @@ public class RitualDraw : SelfDraw
         Game.Clear(container.transform);
         container.Init();
     }
-
-    private IEnumerable Wrong()
-    {
-        container.ChangeMaterial(container.wrong);
-        yield return new WaitForSeconds(1f);
-        container.ChangeMaterial(container.wrong);
-    }
-
+    
     public void Clear()
     {
         container.transform.SetParent(transform.parent);
@@ -79,12 +73,14 @@ public class RitualDraw : SelfDraw
 
     private void Confirm()
     {
-        if (currentLineRenderer.positionCount < 2)
+        if (currentLineRenderer.positionCount < 2 || totalPoints > maxPoints)
         {
             Destroy(currentLineRenderer.gameObject);
             return;
         }
         currentLineRenderer.transform.SetParent(transform);
+        
+        Debug.Log(maxPoints + " " + totalPoints);
         
         var path = 
             Enumerable
