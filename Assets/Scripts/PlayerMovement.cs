@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             PlayerInfo.Learned.Add("sprout");
+            PlayerInfo.Learned.Add("saddle");
             PlayerInfo.Learned.Add("boat");
             PlayerInfo.Learned.Add("buffalo leg");
             PlayerInfo.Learned.Add("buffalo");
@@ -73,5 +75,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Finish")))
             SceneManager.LoadScene("MenuScene");
+    }
+
+    public void Die()
+    {
+        
     }
 }
