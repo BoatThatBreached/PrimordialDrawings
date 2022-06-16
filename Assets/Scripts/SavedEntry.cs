@@ -223,6 +223,8 @@ public class SavedEntry : MonoBehaviour
             };
             yield return new WaitForSeconds(Time.deltaTime);
         }
+
+        yield return new WaitForSeconds(1);
     }
 
     public bool Clicked()
