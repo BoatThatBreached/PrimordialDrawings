@@ -1,23 +1,35 @@
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace DefaultNamespace
+public class Fire : MonoBehaviour
 {
-    public class Fire : MonoBehaviour
-    {
-        private bool used;
+    public bool burning;
+    public SavedEntry fireBase;
+    public float speed;
+    public float offset;
+    public float startHeight;
+    public int emberCount;
+    public Player player;
 
-        private void OnCollisionEnter(Collision other)
+    private void Start()
+    {
+        fireBase.Animate(PlayerInfo.Pass);
+    }
+
+    private void Update()
+    {
+        if (burning)
         {
-            if (used)
+            fireBase.Burn();
+            if (Vector2.Distance(transform.position, player.transform.position) > 5f)
                 return;
-            if (other.gameObject.name == "Player")
-            {
-                PlayerInfo.Paints["earth"] = 1;
-                PlayerInfo.Paints["blood"] = 1;
-                PlayerInfo.Paints["wood"] = 1;
-                GameObject.Find("Player").GetComponent<PlayerMovement>().lastFire = gameObject;
-                used = true;
-            }
+            
+            var maxLevel = Math.Max(int.Parse(PlayerInfo.ReadString("maxLvl")), PlayerInfo.CurrentLevel+1);
+            PlayerInfo.WriteString("maxLvl", maxLevel.ToString());
+            SceneManager.LoadScene("Levels");
         }
+        else
+            fireBase.Ashen(emberCount, Time.deltaTime, startHeight, offset, speed);
     }
 }

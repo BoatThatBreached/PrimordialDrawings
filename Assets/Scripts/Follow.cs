@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class Follow : MonoBehaviour
 {
-    public Transform Target;
+    public Transform target;
+    public float speed;
     public Vector2 offset;
-    void Update()
+
+    private void Update()
     {
-        var delta = Target.position - transform.position;
+        var delta = target.position - transform.position;
         var dx = delta.x+offset.x;
         var dy = delta.y+offset.y;
-        transform.position += Vector3.right * dx * Time.deltaTime + Vector3.up * dy * Time.deltaTime*3;
+        transform.position += Time.deltaTime*speed*(dx * Vector3.right  + dy * Vector3.up);
     }
 }

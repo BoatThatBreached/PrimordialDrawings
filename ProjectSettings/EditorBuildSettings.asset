@@ -20,4 +20,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DeveloperDraw.unity
     guid: 958c0db5b45afed4a89bff87fb3c6c95
+  - enabled: 1
+    path: Assets/Scenes/Test Level.unity
+    guid: 6ebfedc1f101543468c8bf13a216c3e2
+  - enabled: 1
+    path: Assets/Scenes/Levels.unity
+    guid: b8c4f62db498a4146803a0a9c38432a7
+  - enabled: 1
+    path: Assets/Scenes/Level 0.unity
+    guid: 61d7a1f89fe64d341b067726dae5de79
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
+    guid: 2e511923c1a5f2743b48bba3de302d10
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 8fac688f9dc5271459e6f0b8f4ecd654
+  - enabled: 1
+    path: Assets/Scenes/Level 3.unity
+    guid: 866f4654aedb3d7468431817889e4a57
+  - enabled: 1
+    path: Assets/Scenes/Dead Scene.unity
+    guid: 526f538ee50af7c41bd781e7ae7c75cf
   m_configObjects: {}

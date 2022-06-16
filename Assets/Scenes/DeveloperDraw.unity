@@ -1066,6 +1066,8 @@ MonoBehaviour:
   brush: {fileID: 6862706468669150495, guid: 03d719e82bd541f429603248743ae480, type: 3}
   currentLineRenderer: {fileID: 0}
   lastPos: {x: 0, y: 0}
+  totalPoints: 0
+  maxPoints: 10000
   container: {fileID: 2109232289}
   drawingType: {fileID: 781399837}
   title: {fileID: 11959708}
@@ -1084,7 +1086,7 @@ Transform:
   m_Children:
   - {fileID: 2109232288}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &644416911
 GameObject:
@@ -1194,63 +1196,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644416911}
   m_CullTransparentMesh: 1
---- !u!1001 &692862200
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2109232287, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_Name
-      value: sprout
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109232288, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9fb7ca4302449714995d90e9ff745710, type: 3}
 --- !u!1 &781399835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,6 +1292,12 @@ MonoBehaviour:
     - m_Text: Wood
       m_Image: {fileID: 0}
     - m_Text: Earth
+      m_Image: {fileID: 0}
+    - m_Text: flame_yellow
+      m_Image: {fileID: 0}
+    - m_Text: flame_red
+      m_Image: {fileID: 0}
+    - m_Text: bone
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1797,7 +1748,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1222164588
 GameObject:
@@ -2256,7 +2207,7 @@ RectTransform:
   - {fileID: 444469647}
   - {fileID: 2091293750}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3111,7 +3062,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1824651911
 GameObject:
@@ -3590,12 +3541,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7621e0ae88e84b158837770dbf692a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Lines: []
-  Materials: []
-  Toughness: 
+  lines: []
+  materials: []
+  toughness: 
   terrainPref: {fileID: 8404629687787223352, guid: 8cf55c3975506464cb90bb1672593ea5, type: 3}
   blood: {fileID: 2100000, guid: 9c4a5294737f5a44cb382060f4c505c4, type: 2}
   earth: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
   wood: {fileID: 2100000, guid: 564b8941f14e35d4d97b66bc377109c6, type: 2}
+  original: {fileID: 0}
+  totalPoints: 0
   synchronized: 0
   envType: 
+  drawn: 0

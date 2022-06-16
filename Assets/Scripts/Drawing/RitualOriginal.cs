@@ -1,5 +1,4 @@
 using System;
-using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +14,7 @@ namespace Drawing
             print(title);
             var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/{title}")).GetComponent<SavedEntry>();
             obj.transform.position = new Vector3(0, 0, 6);
+            obj.transform.localScale = PlayerInfo.WantedScale;
             obj.Animate(PlayerInfo.Pass);
 
             GameObject.Find("Draw").GetComponent<RitualDraw>().original = obj.GetComponent<SavedEntry>();

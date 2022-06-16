@@ -5,25 +5,20 @@ public class Unliving:MonoBehaviour
 {
     public SavedEntry body;
 
-    public void Start()
-    {
-        body.Animate(PlayerInfo.Pass);
-    }
-
     public void Update()
     {
-        if (body.Clicked())
+        if (!body.Clicked())
+            return;
+        if (PlayerInfo.Learned.Contains(body.envType))
+            body.Click();
+        else
         {
-            if (PlayerInfo.Learned.Contains(body.envType))
-                body.Click();
-            else
-            {
-                //Destroy(body.gameObject);
-                PlayerInfo.WantedToLearn = body.envType;
-                print(PlayerInfo.WantedToLearn);
-                SceneManager.LoadScene("DrawScene");
-            }
+            PlayerInfo.PrevScene = SceneManager.GetActiveScene().name;
+            PlayerInfo.WantedToLearn = body.envType;
+            PlayerInfo.WantedScale = body.transform.localScale;
+            PlayerInfo.LastPlayerPos = FindObjectOfType<Player>().transform.position;
+            PlayerInfo.Save();
+            SceneManager.LoadScene("DrawScene");
         }
     }
-    
 }
