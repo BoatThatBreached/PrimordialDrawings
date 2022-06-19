@@ -126,7 +126,7 @@ namespace Drawing
                     .ToList();
             var path2 = path.Select(v => new Vector3(v.x, v.y)).ToList();
             container.Add(path2.ToStrList(), material, isTough, isSync);
-            print(path2.ToStrList());
+            //print(path2.ToStrList());
             currentLineRenderer = null;
         }
     }

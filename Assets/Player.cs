@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Extensions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -13,8 +11,9 @@ public class Player : MonoBehaviour
     public SavedEntry leftLeg;
     public Camera cam;
     private float _legTime;
-
-    //private int _direction;
+    public float speed;
+    public float boatSpeed;
+    
     public Transform held;
 
     private bool _legsMoving;
@@ -57,7 +56,7 @@ public class Player : MonoBehaviour
         GetOnBoat();
         Step();
         Spawn();
-        TrySave();
+        //TrySave();
         GetFromBoat();
     }
 
@@ -70,7 +69,7 @@ public class Player : MonoBehaviour
         _water = null;
         onBoat = false;
         myRigidbody.simulated = true;
-        myRigidbody.AddForce(new Vector2(Mathf.Abs(transform.localEulerAngles.y) < 1 ? 4000 : -4000, 3000));
+        myRigidbody.AddForce(new Vector2(Mathf.Abs(transform.localEulerAngles.y) < 1 ? 3000 : -3000, 3000));
     }
 
     private void GetOnBoat()
@@ -95,9 +94,8 @@ public class Player : MonoBehaviour
 
     private void Step()
     {
-        if (onBoat)
-            return;
-        var dt = Time.deltaTime;
+        
+        
         if (!_legsMoving)
         {
             TurnBack(leftLeg);
@@ -107,7 +105,9 @@ public class Player : MonoBehaviour
             _legTime = 0;
             return;
         }
-
+        if (onBoat)
+            return;
+        var dt = Time.deltaTime;
         _desiredLeftAngle = -angle * LinSin(_legTime / MAXLegTime);
         _desiredRightAngle = angle * LinSin(_legTime / MAXLegTime);
 
@@ -163,28 +163,28 @@ public class Player : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x, 1 + Mathf.Sin(Time.time) / 80, 1);
     }
 
-    private void TrySave()
-    {
-        if (onBoat)
-            return;
-        if (!(UnityExtensions.KeyComboPressed(KeyCode.LeftControl, KeyCode.S)
-              || UnityExtensions.KeyComboPressed(KeyCode.RightControl, KeyCode.S)))
-            return;
-        print("Saved!");
-
-
-        var p = transform.position + 5 * Vector3.up;
-        p.z = -15;
-        var obj = Instantiate(Resources.Load<GameObject>("Prefabs/palm")).GetComponent<SavedEntry>();
-        obj.transform.position = p;
-        obj.Animate(PlayerInfo.Pass);
-
-        PlayerInfo.LastPlayerPos = transform.position;
-        if (!PlayerInfo.Palms.ContainsKey(PlayerInfo.CurrentLevel))
-            PlayerInfo.Palms[PlayerInfo.CurrentLevel] = new List<Vector3>();
-        PlayerInfo.Palms[PlayerInfo.CurrentLevel].Add(p);
-        PlayerInfo.Save();
-    }
+    // private void TrySave()
+    // {
+    //     if (onBoat)
+    //         return;
+    //     if (!(UnityExtensions.KeyComboPressed(KeyCode.LeftControl, KeyCode.S)
+    //           || UnityExtensions.KeyComboPressed(KeyCode.RightControl, KeyCode.S)))
+    //         return;
+    //     print("Saved!");
+    //
+    //
+    //     var p = transform.position + 5 * Vector3.up;
+    //     p.z = -15;
+    //     var obj = Instantiate(Resources.Load<GameObject>("Prefabs/palm")).GetComponent<SavedEntry>();
+    //     obj.transform.position = p;
+    //     obj.Animate(PlayerInfo.Pass);
+    //
+    //     PlayerInfo.LastPlayerPos = transform.position;
+    //     if (!PlayerInfo.Palms.ContainsKey(PlayerInfo.CurrentLevel))
+    //         PlayerInfo.Palms[PlayerInfo.CurrentLevel] = new List<Vector3>();
+    //     PlayerInfo.Palms[PlayerInfo.CurrentLevel].Add(p);
+    //     PlayerInfo.Save();
+    // }
 
     public void Die()
     {
@@ -220,12 +220,12 @@ public class Player : MonoBehaviour
                 : transform.localEulerAngles;
         if (onBoat && !_water.strongStream)
         {
-            _water.boat.position += pressDir * Time.fixedDeltaTime * 10 * Vector3.right;
+            _water.boat.position += pressDir * Time.fixedDeltaTime * boatSpeed * Vector3.right;
             return;
         }
 
         myRigidbody.MovePosition(myRigidbody.position +
-                                 new Vector2(pressDir * Time.fixedDeltaTime * 10, 0));
+                                 new Vector2(pressDir * Time.fixedDeltaTime * speed, 0));
 
         _legsMoving = Mathf.Abs(pressDir) >= 0.1f;
     }

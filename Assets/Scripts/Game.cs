@@ -12,6 +12,8 @@ public class Game : MonoBehaviour
     public GameObject toLearnContainer;
     public static bool IsPaused;
     public Player player;
+    public List<SavedEntry> spawned;
+    public float treeHeight;
 
     private void Awake()
     {
@@ -27,6 +29,7 @@ public class Game : MonoBehaviour
             foreach (var pos in PlayerInfo.Spawned[PlayerInfo.CurrentLevel][type])
                 Spawn(type, pos);
         LoadLevel();
+        spawned = new List<SavedEntry>();
     }
 
     public void Spawn(string type, Vector3 pos)
@@ -43,6 +46,7 @@ public class Game : MonoBehaviour
                 player.held.localScale = 0.5f * Vector3.one;
                 player.held.localPosition = new Vector3(1.5f, 1.5f, 0);
                 player.saddled = true;
+                //spawned.Add(obj);
             },
             "boat" => () =>
             {
@@ -55,12 +59,17 @@ public class Game : MonoBehaviour
                             water.waterPointsContainer.GetChild(j).position,
                             player.transform.position)
                         < Vector2.Distance(
-                            closest.position, 
+                            closest.position,
                             player.transform.position))
                         closest = water.waterPointsContainer.GetChild(j);
                 obj.transform.position = closest.position + Vector3.up;
                 water.boat = obj.transform;
+                //spawned.Add(obj);
             },
+            "sprout" => () => { 
+                spawned.Add(obj); 
+                obj.treeHeight = treeHeight;},
+
             _ => PlayerInfo.Pass
         };
         obj.Animate(finish);
@@ -116,10 +125,21 @@ public class Game : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (IsPaused || PlayerInfo.Learned.Count == 0)
             return;
+        foreach (var obj in spawned.Where(o => o.Clicked()))
+        {
+            if (obj.envType == "sprout")
+            {
+                Clear(obj.transform);
+                var crone = Instantiate(Resources.Load<GameObject>("Prefabs/crone"), obj.transform);
+                crone.transform.localScale = 2 * Vector3.one;
+                
+                crone.GetComponent<SavedEntry>().Animate(()=>obj.Grow());
+            }
+        }
 
         PlayerInfo.UpdateIndex((int) Input.mouseScrollDelta.y);
         currentSpawn.text = PlayerInfo.CurrentType;

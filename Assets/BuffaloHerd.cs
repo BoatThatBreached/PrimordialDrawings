@@ -15,12 +15,13 @@ public class BuffaloHerd : MonoBehaviour
         _oxen = new List<SavedEntry>();
         for (var i = 0; i < 8; i++)
             _oxen.Add(Instantiate(oxPref, transform).GetComponent<SavedEntry>());
-
+    
         for (var i = 0; i < _oxen.Count; i++)
         {
             var ox = _oxen[i];
             ox.transform.position = 1f / _oxen.Count * (leftEdge.position * i + rightEdge.position * (_oxen.Count - i));
             //_speeds[i] = Random.Range(0f, Mathf.PI);
+            ox.transform.localScale = 1.45f * Vector3.one;
             ox.Animate(PlayerInfo.Pass);
         }
     }
@@ -77,6 +78,6 @@ public class BuffaloHerd : MonoBehaviour
     {
         var pos = player.transform.position;
         return pos.x > leftEdge.position.x && pos.x < rightEdge.position.x &&
-               Mathf.Abs(transform.position.y - pos.y) < 3;
+               Mathf.Abs(transform.position.y - pos.y) < 6;
     }
 }

@@ -61,7 +61,6 @@ MonoBehaviour:
   earth: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
   wood: {fileID: 2100000, guid: 564b8941f14e35d4d97b66bc377109c6, type: 2}
   original: {fileID: 2100000, guid: 3b48d444c1d964b4bb8a7360b11887c3, type: 2}
-  totalPoints: 0
+  wrong: {fileID: 2100000, guid: 7d63beda5f3d1034caa156ee1d2b1720, type: 2}
   synchronized: 1
-  envType: sprout
-  animateLeft: 0
+  envType: 

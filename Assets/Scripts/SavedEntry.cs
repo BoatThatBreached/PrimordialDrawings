@@ -4,28 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using Extensions;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class SavedEntry : MonoBehaviour
 {
-    [SerializeField] public List<string> lines;
-    [SerializeField] public List<string> materials;
-    [SerializeField] public List<bool> toughness;
+    [SerializeField] [FormerlySerializedAs("Lines")]public List<string> lines;
+    [SerializeField] [FormerlySerializedAs("Materials")]public List<string> materials;
+    [SerializeField] [FormerlySerializedAs("Toughness")]public List<bool> toughness;
     public GameObject terrainPref;
-    public Material blood, earth, wood, original;
     public int totalPoints;
     public bool synchronized;
 
     public string envType;
-    private float minX, minY, maxX, maxY;
+    private float _minX, _minY, _maxX, _maxY;
     private bool _moving;
     private float _direction;
     private Vector3 _center;
-    public bool drawn;
 
     private List<Transform> _embers;
     private List<Transform> _flames;
 
+    public float treeHeight;
+    
     public void Move(float dir)
     {
         _moving = true;
@@ -58,11 +59,15 @@ public class SavedEntry : MonoBehaviour
         _flames = new List<Transform>();
         if (lines == null || lines.Count == 0)
             return;
-        var points = lines.Select(line => line.ToVectList()).SelectMany(l => l).ToList();
-        minX = points.Min(v => v.x) + transform.position.x;
-        minY = points.Min(v => v.y) + transform.position.y;
-        maxX = points.Max(v => v.x) + transform.position.x;
-        maxY = points.Max(v => v.y) + transform.position.y;
+        var points = lines
+            .Select(line => line.ToVectList())
+            .SelectMany(l => l)
+            .Select(v=>v.Extend(transform.localScale))
+            .ToList();
+        _minX = points.Min(v => v.x) + transform.position.x;
+        _minY = points.Min(v => v.y) + transform.position.y;
+        _maxX = points.Max(v => v.x) + transform.position.x;
+        _maxY = points.Max(v => v.y) + transform.position.y;
     }
 
     public void Animate(Action finish)
@@ -247,7 +252,7 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
     public bool Clicked()
     {
         var mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return Input.GetMouseButtonDown(0) && minX <= mpos.x && mpos.x <= maxX && minY <= mpos.y && mpos.y <= maxY;
+        return Input.GetMouseButtonDown(0) && _minX <= mpos.x && mpos.x <= _maxX && _minY <= mpos.y && mpos.y <= _maxY;
     }
 
     public void Burn()
@@ -277,13 +282,13 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
             var t = Instantiate(terrainPref, transform).transform;
             Destroy(t.GetComponent<BoxCollider2D>());
             t.GetComponent<SpriteRenderer>().color = new Color(7f / 255, 7f / 255, 7f / 255);
-            t.position = new Vector3(Random.Range(minX, maxX), Random.Range(minY / 2 + maxY / 2, maxY+offset+startHeight)+startHeight, -15);
+            t.position = new Vector3(Random.Range(_minX, _maxX), Random.Range(_minY / 2 + _maxY / 2, _maxY+offset+startHeight)+startHeight, -15);
             _embers.Add(t);
         }
 
         foreach (var t in _embers)
             t.position += dt * speed * (3 + Mathf.Sin(Time.time)) * Vector3.up;
-        var toDestroy = _embers.Where(t => t.position.y >= maxY + offset+startHeight).ToList();
+        var toDestroy = _embers.Where(t => t.position.y >= _maxY + offset+startHeight).ToList();
         foreach (var t in toDestroy)
         {
             _embers.Remove(t);
@@ -310,17 +315,45 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
         AddLineMomentum(realPoints, "6", false);
     }
 
-    public void Enspike(float len)
+    public void EndAshen(float dt, float startHeight, float offset, float speed)
     {
-        var points = new List<Vector3>();
-        var n = Mathf.RoundToInt(len*2);
-        for (var i = -n/2; i < n/2; i++)
+        if (_embers.Count == 0)
+            return;
+        foreach (var t in _embers)
+            t.position += dt * speed * (3 + Mathf.Sin(Time.time)) * Vector3.up;
+        var toDestroy = _embers.Where(t => t.position.y >= _maxY + offset+startHeight).ToList();
+        foreach (var t in toDestroy)
         {
-            points.Add(new Vector3(i * len / n, 0, -15));
-            points.Add(new Vector3(i * len / n+Random.Range(0.3f, 0.6f), Random.Range(3f, 5f), -15));
+            _embers.Remove(t);
+            Destroy(t.gameObject);
         }
-        points.Add(new Vector3(len/2, 0, -15));
-        StartCoroutine(AddLine(points, "0", false));
-        
+    }
+
+    public void Grow()
+    {
+        if(envType=="sprout")
+            StartCoroutine(GrowTree());
+    }
+
+    private IEnumerator GrowTree()
+    {
+        var height = 0f;
+        var dh = 0.8f;
+        var width = 1.2f;
+        var dw = 0.2f;
+        while (height < treeHeight)
+        {
+            
+            var currX = Mathf.Sin(height);
+            var upPointLeft = new Vector3(currX - width / 2, -height, -15);
+            var upPointRight = new Vector3(currX + width / 2, -height, -15);
+            height += dh;
+            transform.position += dh * Vector3.up;
+            width += dw;
+            currX = Mathf.Sin(height);
+            var downPointLeft = new Vector3(currX - width / 2, -height, -15);
+            var downPointRight = new Vector3(currX + width / 2, -height, -15);
+            yield return AddLine(new List<Vector3> {upPointLeft, downPointLeft, downPointRight, upPointRight}, "1", false);
+        }
     }
 }
