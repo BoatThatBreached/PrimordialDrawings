@@ -24,15 +24,15 @@ public class Levels : MonoBehaviour
         }
     }
 
-    public void SelectLevel(TMP_Text number)
+    public void SelectLevel(int number)
     {
-        PlayerInfo.CurrentLevel = int.Parse(number.text);
+        PlayerInfo.CurrentLevel = number;
         PlayerInfo.LastPlayerPos = new Vector3();
         var lastPos = File.Exists($"{PlayerInfo.Path}/lastPos_{PlayerInfo.CurrentLevel}.prim")
             ? PlayerInfo.ReadString($"lastPos_{PlayerInfo.CurrentLevel}").ToVector()
             : new Vector3();
         PlayerInfo.WriteString($"lastPos_{PlayerInfo.CurrentLevel}", lastPos.ToVectString());
         PlayerInfo.InitLevelInfo();
-        SceneManager.LoadScene($"Level {number.text}");
+        SceneManager.LoadScene($"Level {number.ToString()}");
     }
 }
