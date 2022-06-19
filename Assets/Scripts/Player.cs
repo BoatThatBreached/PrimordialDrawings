@@ -94,8 +94,6 @@ public class Player : MonoBehaviour
 
     private void Step()
     {
-        
-        
         if (!_legsMoving)
         {
             TurnBack(leftLeg);

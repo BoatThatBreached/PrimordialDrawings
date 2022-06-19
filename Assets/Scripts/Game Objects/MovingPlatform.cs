@@ -7,11 +7,13 @@ namespace Game_Objects
         public GameObject Pair;
         private Player _player;
         private Vector3 _offset;
+        private Vector3 _startPos;
 
         private void Start()
         {
             _player = FindObjectOfType<Player>();
             _offset = _player.GetComponent<CapsuleCollider2D>().offset;
+            _startPos = transform.position;
         }
 
         private void Update()
@@ -22,6 +24,10 @@ namespace Game_Objects
             {
                 transform.position += Vector3.down;
                 Pair.transform.position += Vector3.up;
+            }
+            else if (transform.position != _startPos)
+            {
+                transform.position += (transform.position.y < _startPos.y) ? Vector3.up : Vector3.down;
             }
         }
     }
