@@ -15,12 +15,14 @@ public class Game : MonoBehaviour
     public Player player;
     public List<SavedEntry> spawned;
     public float treeHeight;
+    public CircleLayoutGroup wooden;
 
     private void Awake()
     {
         IsPaused = false;
         LoadLevel();
         PlayerInfo.Load();
+        wooden.Init(PlayerInfo.WoodenPiecesLeft);
         player.transform.position = new Vector3(4, 9, -15) +
                                     FindObjectsOfType<Fire>()
                                         .First(f => f.fireIndex == PlayerInfo.FireIndex)

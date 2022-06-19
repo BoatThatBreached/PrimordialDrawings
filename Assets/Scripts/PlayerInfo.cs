@@ -32,7 +32,7 @@ public static class PlayerInfo
 
     private static Dictionary<int, int> MaxWood => new Dictionary<int, int>
     {
-        [1] = 1,
+        [1] = 4,
         [2] = 2,
     };
 
