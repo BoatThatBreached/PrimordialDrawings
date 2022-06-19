@@ -20,6 +20,7 @@ public class Game : MonoBehaviour
     private void Awake()
     {
         IsPaused = false;
+        spawned = new List<SavedEntry>();
         LoadLevel();
         PlayerInfo.Load();
         wooden.Init(PlayerInfo.WoodenPiecesLeft);
@@ -84,6 +85,14 @@ public class Game : MonoBehaviour
                 spawned.Add(obj);
                 obj.treeHeight = treeHeight;
             },
+            "spear" => () =>
+            {
+                player.held = obj.transform;
+                player.held.SetParent(transform);
+                //player.held.localScale = 0.5f * Vector3.one;
+                player.held.localPosition = new Vector3(1.5f, 1.5f, 0);
+                player.armed = true;
+            },
 
             _ => PlayerInfo.Pass
         };
@@ -100,11 +109,12 @@ public class Game : MonoBehaviour
 
     private void SpawnSprout(Vector3 pos)
     {
-        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/skull"), transform.parent)
+        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_sprout"), transform.parent)
             .GetComponent<SavedEntry>();
         obj.transform.position = pos;
         obj.treeHeight = treeHeight;
         obj.Animate(PlayerInfo.Pass);
+        spawned.Add(obj);
     }
 
     private void LoadLevel()

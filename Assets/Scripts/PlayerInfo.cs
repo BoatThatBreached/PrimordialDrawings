@@ -90,8 +90,8 @@ public static class PlayerInfo
         using var sw = new StreamReader(fs);
         return sw.ReadToEnd();
     }
-    
-    public static string ReadStringCurrent(string filename)
+
+    private static string ReadStringCurrent(string filename)
     {
         using var fs = new FileStream($"{Path}/{filename}_{CurrentLevel}.prim", FileMode.OpenOrCreate, FileAccess.Read);
         using var sw = new StreamReader(fs);
@@ -105,7 +105,7 @@ public static class PlayerInfo
         sw.Write(s);
     }
 
-    public static void WriteStringCurrent(string filename, string s)
+    private static void WriteStringCurrent(string filename, string s)
     {
         using var fs = new FileStream(PathToCurrent(filename), FileMode.OpenOrCreate,
             FileAccess.Write);

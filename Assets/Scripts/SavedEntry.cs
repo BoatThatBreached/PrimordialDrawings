@@ -96,7 +96,7 @@ public class SavedEntry : MonoBehaviour
         {
             for (var i = 0; i < lines.Count; i++)
                 StartCoroutine(AddLine(lines[i], materials[i], toughness[i]));
-            yield return new WaitForSeconds(_totalPoints / lines.Count/30f);
+            yield return new WaitForSeconds(_totalPoints / lines.Count/15f);
         }
         else
             for (var i = 0; i < lines.Count; i++)

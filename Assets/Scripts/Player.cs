@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Extensions;
 using Game_Objects;
 using UnityEngine;
 
@@ -35,6 +36,8 @@ public class Player : MonoBehaviour
     private const float MAXBlink = 1f;
     private Water _water;
 
+    public bool armed;
+
     private void Start()
     {
         body.Animate(PlayerInfo.Pass);
@@ -53,10 +56,19 @@ public class Player : MonoBehaviour
         Breathe();
         Blink();
         GetOnBoat();
+        RotateSpear();
         Step();
         Spawn();
-        //TrySave();
         GetFromBoat();
+        
+    }
+
+    private void RotateSpear()
+    {
+        if (!armed)
+            return;
+        var mpos = cam.ScreenToWorldPoint(Input.mousePosition);
+        held.localEulerAngles = held.localEulerAngles.WithZ(Mathf.Atan2(mpos.y, mpos.x));
     }
 
     private void GetFromBoat()
@@ -157,31 +169,8 @@ public class Player : MonoBehaviour
 
     private void Breathe()
     {
-        transform.localScale = new Vector3(transform.localScale.x, 1 + Mathf.Sin(Time.time) / 80, 1);
+        transform.localScale = new Vector3(transform.localScale.x, 1 + Mathf.Sin(Time.time) / 120f, 1);
     }
-
-    // private void TrySave()
-    // {
-    //     if (onBoat)
-    //         return;
-    //     if (!(UnityExtensions.KeyComboPressed(KeyCode.LeftControl, KeyCode.S)
-    //           || UnityExtensions.KeyComboPressed(KeyCode.RightControl, KeyCode.S)))
-    //         return;
-    //     print("Saved!");
-    //
-    //
-    //     var p = transform.position + 5 * Vector3.up;
-    //     p.z = -15;
-    //     var obj = Instantiate(Resources.Load<GameObject>("Prefabs/palm")).GetComponent<SavedEntry>();
-    //     obj.transform.position = p;
-    //     obj.Animate(PlayerInfo.Pass);
-    //
-    //     PlayerInfo.LastPlayerPos = transform.position;
-    //     if (!PlayerInfo.Palms.ContainsKey(PlayerInfo.CurrentLevel))
-    //         PlayerInfo.Palms[PlayerInfo.CurrentLevel] = new List<Vector3>();
-    //     PlayerInfo.Palms[PlayerInfo.CurrentLevel].Add(p);
-    //     PlayerInfo.Save();
-    // }
 
     public void Die()
     {
@@ -193,7 +182,7 @@ public class Player : MonoBehaviour
 
     private void Spawn()
     {
-        if (onBoat)
+        if (onBoat || onOx)
             return;
         if (!Input.GetMouseButtonDown(1) || !PlayerInfo.CanSpawnCurrentType)
             return;
@@ -216,6 +205,9 @@ public class Player : MonoBehaviour
             _water.boat.position += pressDir * Time.fixedDeltaTime * boatSpeed * Vector3.right;
             return;
         }
+
+        if (onOx)
+            return;
 
         myRigidbody.MovePosition(myRigidbody.position +
                                  new Vector2(pressDir * Time.fixedDeltaTime * speed, 0));
