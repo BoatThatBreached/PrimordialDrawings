@@ -10,9 +10,15 @@ using Random = UnityEngine.Random;
 
 public class SavedEntry : MonoBehaviour
 {
-    [SerializeField] [FormerlySerializedAs("Lines")]public List<string> lines;
-    [SerializeField] [FormerlySerializedAs("Materials")]public List<string> materials;
-    [SerializeField] [FormerlySerializedAs("Toughness")]public List<bool> toughness;
+    [SerializeField] [FormerlySerializedAs("Lines")]
+    public List<string> lines;
+
+    [SerializeField] [FormerlySerializedAs("Materials")]
+    public List<string> materials;
+
+    [SerializeField] [FormerlySerializedAs("Toughness")]
+    public List<bool> toughness;
+
     public GameObject terrainPref;
     private int _totalPoints;
     private int _drawnPoints;
@@ -23,14 +29,14 @@ public class SavedEntry : MonoBehaviour
     private bool _moving;
     private float _direction;
 
-    public float Volume => 1 - (float)_drawnPoints / _totalPoints;
+    public float Volume => 1 - (float) _drawnPoints / _totalPoints;
     //private Vector3 _center;
 
     private List<Transform> _embers;
     private List<Transform> _flames;
 
     public float treeHeight;
-    
+
     public void Move(float dir)
     {
         _moving = true;
@@ -66,7 +72,7 @@ public class SavedEntry : MonoBehaviour
         var points = lines
             .Select(line => line.ToVectList())
             .SelectMany(l => l)
-            .Select(v=>v.Extend(transform.localScale))
+            .Select(v => v.Extend(transform.localScale))
             .ToList();
         _minX = points.Min(v => v.x) + transform.position.x;
         _minY = points.Min(v => v.y) + transform.position.y;
@@ -76,7 +82,7 @@ public class SavedEntry : MonoBehaviour
 
     public void Animate(Action finish)
     {
-        if (lines == null||lines.Count==0)
+        if (lines == null || lines.Count == 0)
             return;
         //_center = 1f/allPoints.Count*allPoints.Aggregate((v1, v2) => v1 + v2);
         StartCoroutine(DrawLines(finish));
@@ -86,14 +92,15 @@ public class SavedEntry : MonoBehaviour
     {
         _totalPoints = lines.SelectMany(line => line.ToVectList()).ToList().Count;
         _drawnPoints = 0;
-        for (var i = 0; i < lines.Count; i++)
+        if (synchronized)
         {
-            if (synchronized)
+            for (var i = 0; i < lines.Count; i++)
                 StartCoroutine(AddLine(lines[i], materials[i], toughness[i]));
-            else
-                yield return AddLine(lines[i], materials[i], toughness[i]);
+            yield return new WaitForSeconds(_totalPoints / lines.Count/30f);
         }
-
+        else
+            for (var i = 0; i < lines.Count; i++)
+                yield return AddLine(lines[i], materials[i], toughness[i]);
         finish();
     }
 
@@ -126,10 +133,10 @@ public class SavedEntry : MonoBehaviour
         var realLine = line
             .DividedPoints(0.3f)
             .Select(v => v.Extend(transform.localScale))
-            .Select(v=>v.Rotate(
+            .Select(v => v.Rotate(
                 // _center,
                 new Vector3(),
-                transform.localEulerAngles.z/180*Mathf.PI))
+                transform.localEulerAngles.z / 180 * Mathf.PI))
             .ToList();
         container.transform.localPosition = new Vector3();
         //_totalPoints += realLine.Count;
@@ -143,7 +150,7 @@ public class SavedEntry : MonoBehaviour
             var terr = Instantiate(terrainPref, container.transform);
             terr.transform.position = center + transform.position;
             terr.transform.localScale = new Vector3(len, PlayerInfo.LineWidth, 1);
-            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x) / Mathf.PI * 180f) 
+            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x) / Mathf.PI * 180f)
                                               - transform.eulerAngles
                 ;
             if (!tough)
@@ -161,6 +168,7 @@ public class SavedEntry : MonoBehaviour
             };
             _drawnPoints++;
         }
+
         _drawnPoints++;
     }
 
@@ -168,19 +176,19 @@ public class SavedEntry : MonoBehaviour
     {
         var container = Instantiate(terrainPref, transform);
         container.transform.localScale = Vector3.one;
-        
+
         Destroy(container.GetComponent<SpriteRenderer>());
         Destroy(container.GetComponent<BoxCollider2D>());
         var realLine = line
             .ToVectList()
             .DividedPoints(0.3f)
             .Select(v => v.Extend(transform.localScale))
-            .Select(v=>v.Rotate(
-               // _center,
-               new Vector3(),
-                transform.localEulerAngles.z/180*Mathf.PI))
+            .Select(v => v.Rotate(
+                // _center,
+                new Vector3(),
+                transform.localEulerAngles.z / 180 * Mathf.PI))
             .ToList();
-        container.transform.position = realLine.Center()+transform.position;
+        container.transform.position = realLine.Center() + transform.position;
         //_totalPoints += realLine.Count;
         for (var i = 0; i < realLine.Count - 1; i++)
         {
@@ -192,9 +200,9 @@ public class SavedEntry : MonoBehaviour
             var terr = Instantiate(terrainPref, container.transform);
             terr.transform.position = center + transform.position;
             terr.transform.localScale = new Vector3(len, PlayerInfo.LineWidth, 1);
-            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x) / Mathf.PI * 180f) 
+            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x) / Mathf.PI * 180f)
                                               - transform.eulerAngles
-                                              ;
+                ;
             if (!tough)
                 Destroy(terr.GetComponent<BoxCollider2D>());
             terr.GetComponent<SpriteRenderer>().color = mat.ToLower() switch
@@ -210,24 +218,26 @@ public class SavedEntry : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime / 10);
             _drawnPoints++;
         }
+
         _drawnPoints++;
     }
-private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
+
+    private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
     {
         var container = Instantiate(terrainPref, transform);
         container.transform.localScale = Vector3.one;
-        
+
         Destroy(container.GetComponent<SpriteRenderer>());
         Destroy(container.GetComponent<BoxCollider2D>());
         var realLine = line
             .DividedPoints(0.3f)
             .Select(v => v.Extend(transform.localScale))
-            .Select(v=>v.Rotate(
-               // _center,
-               new Vector3(),
-                transform.localEulerAngles.z/180*Mathf.PI))
+            .Select(v => v.Rotate(
+                // _center,
+                new Vector3(),
+                transform.localEulerAngles.z / 180 * Mathf.PI))
             .ToList();
-        container.transform.position = realLine.Center()+transform.position;
+        container.transform.position = realLine.Center() + transform.position;
         //_totalPoints += realLine.Count;
         for (var i = 0; i < realLine.Count - 1; i++)
         {
@@ -239,9 +249,9 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
             var terr = Instantiate(terrainPref, container.transform);
             terr.transform.position = center + transform.position;
             terr.transform.localScale = new Vector3(len, PlayerInfo.LineWidth, 1);
-            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x) / Mathf.PI * 180f) 
+            terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x) / Mathf.PI * 180f)
                                               - transform.eulerAngles
-                                              ;
+                ;
             if (!tough)
                 Destroy(terr.GetComponent<BoxCollider2D>());
             terr.GetComponent<SpriteRenderer>().color = mat.ToLower() switch
@@ -263,30 +273,29 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
 
     public bool Clicked()
     {
-        if (Camera.main == null) 
+        if (Camera.main == null)
             return false;
         var mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return Input.GetMouseButtonDown(0) && _minX <= mpos.x && mpos.x <= _maxX && _minY <= mpos.y && mpos.y <= _maxY;
-
     }
 
     public void Burn()
     {
-        foreach(var t in _flames)
+        foreach (var t in _flames)
             Destroy(t.gameObject);
         _flames.Clear();
         for (var i = 0; i < 5; i++)
         {
             var line =
                 Enumerable
-                    .Range(0, 10-2*Math.Abs(2-i))
-                    .Skip(Math.Abs(2-i))
+                    .Range(0, 10 - 2 * Math.Abs(2 - i))
+                    .Skip(Math.Abs(2 - i))
                     .Select(y => y / 2.5f)
                     .ToList();
-            var realLine = new List<Vector3> {new Vector3((i-2f)/1.4f, line[0]+1, 15)};
+            var realLine = new List<Vector3> {new Vector3((i - 2f) / 1.4f, line[0] + 1, 15)};
             for (var j = 1; j < line.Count; j++)
-                realLine.Add(new Vector3(Mathf.Cos(line[j]+Time.time)/2+(i-2f)/1.4f, line[j]+1, 15));
-            AddLineMomentum(realLine, i==2?"1":i%4==0?"4":"3", false);
+                realLine.Add(new Vector3(Mathf.Cos(line[j] + Time.time) / 2 + (i - 2f) / 1.4f, line[j] + 1, 15));
+            AddLineMomentum(realLine, i == 2 ? "1" : i % 4 == 0 ? "4" : "3", false);
         }
     }
 
@@ -297,13 +306,14 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
             var t = Instantiate(terrainPref, transform).transform;
             Destroy(t.GetComponent<BoxCollider2D>());
             t.GetComponent<SpriteRenderer>().color = new Color(7f / 255, 7f / 255, 7f / 255);
-            t.position = new Vector3(Random.Range(_minX, _maxX), Random.Range(_minY / 2 + _maxY / 2, _maxY+offset+startHeight)+startHeight, -15);
+            t.position = new Vector3(Random.Range(_minX, _maxX),
+                Random.Range(_minY / 2 + _maxY / 2, _maxY + offset + startHeight) + startHeight, -15);
             _embers.Add(t);
         }
 
         foreach (var t in _embers)
             t.position += dt * speed * (3 + Mathf.Sin(Time.time)) * Vector3.up;
-        var toDestroy = _embers.Where(t => t.position.y >= _maxY + offset+startHeight).ToList();
+        var toDestroy = _embers.Where(t => t.position.y >= _maxY + offset + startHeight).ToList();
         foreach (var t in toDestroy)
         {
             _embers.Remove(t);
@@ -311,21 +321,20 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
         }
 
         //_embers = _embers.Where(t => t.position.y < maxY + 3).ToList();
-
     }
 
     public void Float(float len, float speed, float amplitude)
     {
-        foreach(var t in _flames)
+        foreach (var t in _flames)
             Destroy(t.gameObject);
         _flames.Clear();
         const int n = 12;
-        var realPoints = new List<Vector3>();// {new Vector3(-len/2, amplitude*Mathf.Sin(-speed*len/2), -15)};
+        var realPoints = new List<Vector3>(); // {new Vector3(-len/2, amplitude*Mathf.Sin(-speed*len/2), -15)};
         realPoints.AddRange(
-                Enumerable
-                    .Range(-n, 2*n+1)
-                    .Select(i => i * len / 2/n)
-                    .Select(x => new Vector3(x, amplitude*Mathf.Sin(speed*(x + Time.time)), -15)));
+            Enumerable
+                .Range(-n, 2 * n + 1)
+                .Select(i => i * len / 2 / n)
+                .Select(x => new Vector3(x, amplitude * Mathf.Sin(speed * (x + Time.time)), -15)));
         // realPoints.Add(new Vector3(len/2, amplitude*Mathf.Sin(speed*len/2), -15));
         AddLineMomentum(realPoints, "6", false);
     }
@@ -336,7 +345,7 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
             return;
         foreach (var t in _embers)
             t.position += dt * speed * (3 + Mathf.Sin(Time.time)) * Vector3.up;
-        var toDestroy = _embers.Where(t => t.position.y >= _maxY + offset+startHeight).ToList();
+        var toDestroy = _embers.Where(t => t.position.y >= _maxY + offset + startHeight).ToList();
         foreach (var t in toDestroy)
         {
             _embers.Remove(t);
@@ -346,7 +355,7 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
 
     public void Grow()
     {
-        if(envType=="sprout")
+        if (envType == "sprout")
             StartCoroutine(GrowTree());
     }
 
@@ -358,7 +367,6 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
         var dw = 0.2f;
         while (height < treeHeight)
         {
-            
             var currX = Mathf.Sin(height);
             var upPointLeft = new Vector3(currX - width / 2, -height, -15);
             var upPointRight = new Vector3(currX + width / 2, -height, -15);
@@ -368,7 +376,8 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
             currX = Mathf.Sin(height);
             var downPointLeft = new Vector3(currX - width / 2, -height, -15);
             var downPointRight = new Vector3(currX + width / 2, -height, -15);
-            yield return AddLine(new List<Vector3> {upPointLeft, downPointLeft, downPointRight, upPointRight}, "1", false);
+            yield return AddLine(new List<Vector3> {upPointLeft, downPointLeft, downPointRight, upPointRight}, "1",
+                false);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Extensions;
 using UnityEngine;
 
 namespace Game_Objects
@@ -9,26 +10,32 @@ namespace Game_Objects
         public float leftX;
         public float rightX;
         public SavedEntry body;
-        private float dx;
+        //private float dx;
+        private int _direction;
+        public float speed = 6;
         private Player _player;
         private Vector3 _offset;
+        public bool walking;
 
         private void Start()
         {
+            walking = false;
             _player = FindObjectOfType<Player>();
             _offset = _player.GetComponent<CapsuleCollider2D>().offset;
-            body.Animate(PlayerInfo.Pass);
-            body.Click = () => Saddle();
-            dx = 0.1f;
+            body.Animate(() => walking = true);
+            //body.Click = () => Saddle();
+            //dx = 0.1f;
+            _direction = 1;
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.name == "player 18-")
+            if (other.gameObject == _player.gameObject)
             {
                 body.Animate(PlayerInfo.Pass);
                 body.Click = () => Saddle();
-                dx = 0.1f;
+                _direction = 1;
+                //dx = 0.1f;
             }
             else if (other.gameObject.name == "spear" && type == "tiger")
                 Destroy(gameObject);
@@ -48,20 +55,24 @@ namespace Game_Objects
 
         private void Update()
         {
-            transform.position += new Vector3(dx, 0, 0);
+            if (!walking)
+                return;
+            transform.position += Time.deltaTime * speed * _direction * Vector3.right;
             if (transform.position.x >= rightX)
             {
                 if (type == "tiger")
                 {
-                    dx = -dx;
+                    //dx = -dx;
+                    _direction *= -1;
                     transform.localEulerAngles -= 180 * Vector3.up;
                 }
                 else if (type == "buffalo")
-                    transform.position = new Vector3(leftX, transform.position.x, transform.position.z);
+                    transform.position = transform.position.WithX(leftX);
             }
             else if (transform.position.x <= leftX && type == "tiger")
             {
-                dx = -dx;
+                //dx = -dx;
+                _direction *= -1;
                 transform.localEulerAngles += 180 * Vector3.up;
             }
 
