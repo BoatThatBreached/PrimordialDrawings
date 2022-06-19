@@ -3563,7 +3563,7 @@ MonoBehaviour:
   offset: 3
   startHeight: 0.5
   emberCount: 40
-  player: {fileID: 0}
+  player: {fileID: 1737651203}
   fireIndex: 
 --- !u!1001 &701445410
 PrefabInstance:
@@ -9375,7 +9375,7 @@ MonoBehaviour:
   leftArm: {fileID: 540742805}
   rightLeg: {fileID: 648863860}
   leftLeg: {fileID: 1199287747}
-  cam: {fileID: 0}
+  cam: {fileID: 1896810541}
   speed: 0
   boatSpeed: 0
   held: {fileID: 0}

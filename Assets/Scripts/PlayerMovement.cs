@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
+        Debug.Log("dead");
         transform.position = lastFire.transform.position;
     }
 

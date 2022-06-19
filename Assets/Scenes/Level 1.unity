@@ -5646,7 +5646,7 @@ MonoBehaviour:
   leftArm: {fileID: 1973580953}
   rightLeg: {fileID: 2136574027}
   leftLeg: {fileID: 1418330190}
-  cam: {fileID: 0}
+  cam: {fileID: 1349416221}
   speed: 8
   boatSpeed: 5
   held: {fileID: 0}
