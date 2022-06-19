@@ -13,7 +13,7 @@ public class Levels : MonoBehaviour
     {
         var maxLevel = File.Exists($"{PlayerInfo.Path}/maxLvl.prim")
             ? int.Parse(PlayerInfo.ReadString("maxLvl"))
-            : 0;
+            : 1;
         PlayerInfo.WriteString("maxLvl", maxLevel.ToString());
         foreach (Transform child in grid)
         {
