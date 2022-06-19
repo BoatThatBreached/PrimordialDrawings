@@ -26,14 +26,20 @@ public static class PlayerInfo
 
     public static Dictionary<int, float> MaxEarth => new Dictionary<int, float>
     {
+        [0] = 100f,
         [1] = 100f,
         [2] = 200f,
+        [3] = 200f,
+        [4] = 200f
     };
 
     private static Dictionary<int, int> MaxWood => new Dictionary<int, int>
     {
+        [0] = 4,
         [1] = 4,
         [2] = 2,
+        [3] = 2,
+        [4] = 2
     };
 
     public static float EarthLeft;

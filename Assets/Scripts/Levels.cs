@@ -25,6 +25,7 @@ public class Levels : MonoBehaviour
 
     public void SelectLevel(int number)
     {
+        print(number);
         PlayerInfo.CurrentLevel = number;
         PlayerInfo.InitLevelInfo(number);
         SceneManager.LoadScene($"Level {number}");
