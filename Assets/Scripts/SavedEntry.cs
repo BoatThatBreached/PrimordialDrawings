@@ -14,13 +14,16 @@ public class SavedEntry : MonoBehaviour
     [SerializeField] [FormerlySerializedAs("Materials")]public List<string> materials;
     [SerializeField] [FormerlySerializedAs("Toughness")]public List<bool> toughness;
     public GameObject terrainPref;
-    public int totalPoints;
+    private int _totalPoints;
+    private int _drawnPoints;
     public bool synchronized;
 
     public string envType;
     private float _minX, _minY, _maxX, _maxY;
     private bool _moving;
     private float _direction;
+
+    public float Volume => 1 - (float)_drawnPoints / _totalPoints;
     //private Vector3 _center;
 
     private List<Transform> _embers;
@@ -75,13 +78,14 @@ public class SavedEntry : MonoBehaviour
     {
         if (lines == null||lines.Count==0)
             return;
-        //var allPoints = lines.SelectMany(line => line.ToVectList()).ToList();
         //_center = 1f/allPoints.Count*allPoints.Aggregate((v1, v2) => v1 + v2);
         StartCoroutine(DrawLines(finish));
     }
 
     private IEnumerator DrawLines(Action finish)
     {
+        _totalPoints = lines.SelectMany(line => line.ToVectList()).ToList().Count;
+        _drawnPoints = 0;
         for (var i = 0; i < lines.Count; i++)
         {
             if (synchronized)
@@ -97,7 +101,7 @@ public class SavedEntry : MonoBehaviour
 
     public void Init()
     {
-        totalPoints = 0;
+        _totalPoints = 0;
         lines = new List<string>();
         materials = new List<string>();
         toughness = new List<bool>();
@@ -128,7 +132,7 @@ public class SavedEntry : MonoBehaviour
                 transform.localEulerAngles.z/180*Mathf.PI))
             .ToList();
         container.transform.localPosition = new Vector3();
-        totalPoints += realLine.Count;
+        //_totalPoints += realLine.Count;
         for (var i = 0; i < realLine.Count - 1; i++)
         {
             var curr = realLine[i];
@@ -155,7 +159,9 @@ public class SavedEntry : MonoBehaviour
                 "6" => Color.blue,
                 _ => Color.white
             };
+            _drawnPoints++;
         }
+        _drawnPoints++;
     }
 
     private IEnumerator AddLine(string line, string mat, bool tough)
@@ -175,7 +181,7 @@ public class SavedEntry : MonoBehaviour
                 transform.localEulerAngles.z/180*Mathf.PI))
             .ToList();
         container.transform.position = realLine.Center()+transform.position;
-        totalPoints += realLine.Count;
+        //_totalPoints += realLine.Count;
         for (var i = 0; i < realLine.Count - 1; i++)
         {
             var curr = realLine[i];
@@ -202,7 +208,9 @@ public class SavedEntry : MonoBehaviour
                 _ => Color.white
             };
             yield return new WaitForSeconds(Time.deltaTime / 10);
+            _drawnPoints++;
         }
+        _drawnPoints++;
     }
 private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
     {
@@ -220,7 +228,7 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
                 transform.localEulerAngles.z/180*Mathf.PI))
             .ToList();
         container.transform.position = realLine.Center()+transform.position;
-        totalPoints += realLine.Count;
+        //_totalPoints += realLine.Count;
         for (var i = 0; i < realLine.Count - 1; i++)
         {
             var curr = realLine[i];
@@ -247,13 +255,19 @@ private IEnumerator AddLine(List<Vector3> line, string mat, bool tough)
                 _ => Color.white
             };
             yield return new WaitForSeconds(Time.deltaTime / 10);
+            _drawnPoints++;
         }
+
+        _drawnPoints++;
     }
 
     public bool Clicked()
     {
+        if (Camera.main == null) 
+            return false;
         var mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return Input.GetMouseButtonDown(0) && _minX <= mpos.x && mpos.x <= _maxX && _minY <= mpos.y && mpos.y <= _maxY;
+
     }
 
     public void Burn()

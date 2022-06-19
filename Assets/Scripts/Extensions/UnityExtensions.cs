@@ -64,5 +64,7 @@ namespace Extensions
 
         public static bool KeyComboPressed(KeyCode code1, KeyCode code2)
             => Input.GetKey(code1) && Input.GetKeyDown(code2) || Input.GetKeyDown(code1) && Input.GetKey(code2);
+
+        public static float Rad(this float degrees) => degrees / 180 * Mathf.PI;
     }
 }
