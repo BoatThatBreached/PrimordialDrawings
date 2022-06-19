@@ -17,7 +17,7 @@ public class Levels : MonoBehaviour
         PlayerInfo.WriteString("maxLvl", maxLevel.ToString());
         foreach (Transform child in grid)
         {
-            if (int.Parse(child.GetChild(0).GetComponent<TMP_Text>().text) <= maxLevel)
+            if (int.Parse(child.name) <= maxLevel)
                 continue;
             child.GetComponent<Image>().color = Color.red;
             child.GetComponent<Button>().enabled = false;

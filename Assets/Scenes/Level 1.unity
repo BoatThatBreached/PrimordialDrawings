@@ -3045,7 +3045,8 @@ MonoBehaviour:
   offset: 3
   startHeight: 0.5
   emberCount: 40
-  player: {fileID: 0}
+  player: {fileID: 1477882200}
+  fireIndex: 
 --- !u!1001 &930130265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4638,6 +4639,7 @@ MonoBehaviour:
   startHeight: 2
   emberCount: 0
   player: {fileID: 1477882200}
+  fireIndex: 
 --- !u!1001 &1377021445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5299,6 +5301,8 @@ MonoBehaviour:
   rightLeg: {fileID: 2136574027}
   leftLeg: {fileID: 1418330190}
   cam: {fileID: 0}
+  speed: 0
+  boatSpeed: 0
   held: {fileID: 0}
   myRigidbody: {fileID: 1477882201}
   game: {fileID: 1895516009}
@@ -5888,6 +5892,7 @@ MonoBehaviour:
   startHeight: 2
   emberCount: 0
   player: {fileID: 1477882200}
+  fireIndex: 
 --- !u!1 &1735545423
 GameObject:
   m_ObjectHideFlags: 0
@@ -6551,6 +6556,8 @@ MonoBehaviour:
   levelContainer: {fileID: 1473486732}
   toLearnContainer: {fileID: 1483520116}
   player: {fileID: 1477882200}
+  spawned: []
+  treeHeight: 0
 --- !u!4 &1895516010
 Transform:
   m_ObjectHideFlags: 0
