@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Extensions;
 using UnityEngine;
@@ -12,28 +11,35 @@ namespace Drawing
 
         private void Update()
         {
-            // PlayerInfo.Paints["earth"] = (maxPoints - totalPoints) / maxPoints;
-            // if (totalPoints > maxPoints)
-            //     totalPoints = maxPoints;
-            Render(Flush);
+            Render(() =>
+                {
+                    PlayerInfo.EarthLeft -= 0.1f;
+
+                    if (PlayerInfo.EarthLeft < 0)
+                    {
+                        PlayerInfo.EarthLeft = 0;
+                        return true;
+                    }
+
+                    return false;
+                },
+                Flush);
         }
 
         private void Flush()
         {
             currentLineRenderer.material = terrainMaterial;
-            var path = 
+            var path =
                 Enumerable
                     .Range(0, currentLineRenderer.positionCount)
                     .Select(currentLineRenderer.GetPosition)
                     .DividedPoints(0.3f)
                     .ToList();
-            if (!PlayerInfo.Platforms.ContainsKey(PlayerInfo.CurrentLevel))
-                PlayerInfo.Platforms[PlayerInfo.CurrentLevel] = new List<List<Vector3>>();
-            PlayerInfo.Platforms[PlayerInfo.CurrentLevel].Add(path);
+
+            PlayerInfo.Platforms.Add(path);
             var path2 = path.Select(v => new Vector2(v.x, v.y)).ToList();
             game.AddTerrains(path2.ToList(), currentLineRenderer);
             currentLineRenderer = null;
         }
-
     }
 }

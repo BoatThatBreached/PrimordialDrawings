@@ -37,7 +37,7 @@ namespace Drawing
             container.Init();
         }
 
-        private void Update() => Render(Confirm);
+        private void Update() => Render(PlayerInfo.False, Confirm);
 
         private void Confirm()
         {

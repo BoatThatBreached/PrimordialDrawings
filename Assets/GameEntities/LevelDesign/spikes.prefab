@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109232288}
   - component: {fileID: 2109232289}
+  - component: {fileID: 1154030610249291134}
   m_Layer: 0
   m_Name: spikes
   m_TagString: Untagged
@@ -78,14 +79,22 @@ MonoBehaviour:
   - 0
   toughness: 000000000000000000000000000000
   terrainPref: {fileID: 8404629687787223352, guid: 8cf55c3975506464cb90bb1672593ea5, type: 3}
-  blood: {fileID: 2100000, guid: 9c4a5294737f5a44cb382060f4c505c4, type: 2}
-  earth: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
-  wood: {fileID: 2100000, guid: 564b8941f14e35d4d97b66bc377109c6, type: 2}
-  original: {fileID: 0}
   totalPoints: 0
   synchronized: 1
   envType: spikes
-  drawn: 0
+  treeHeight: 0
+--- !u!114 &1154030610249291134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c226b6eea8d75ac48ad6fb1d658bcbad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3462025720331240597
 GameObject:
   m_ObjectHideFlags: 0

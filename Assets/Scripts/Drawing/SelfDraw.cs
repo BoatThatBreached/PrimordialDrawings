@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace Drawing
 {
-    public class SelfDraw: MonoBehaviour
+    public class SelfDraw : MonoBehaviour
     {
         public Camera mCamera;
         public GameObject brush;
         public LineRenderer currentLineRenderer;
         public Vector2 lastPos;
-        public float totalPoints;
-        public float maxPoints = 10000;
+
+        // public float totalPoints;
+        // public float maxPoints = 10000;
+        // public float delta;
 
         private void CreateBrush()
         {
@@ -28,7 +30,7 @@ namespace Drawing
             currentLineRenderer.SetPosition(count, pos);
         }
 
-        protected void Render(Action flush)
+        protected void Render(Func<bool> stopPredicate, Action flush)
         {
             if (Input.GetMouseButtonDown(0))
                 CreateBrush();
@@ -36,21 +38,13 @@ namespace Drawing
             {
                 Vector2 mousePos = mCamera.ScreenToWorldPoint(Input.mousePosition);
                 var len = (mousePos - lastPos).magnitude;
-                if (len < 0.2f)
+                if (len < 0.2f || stopPredicate())
                     return;
-                totalPoints += 0.1f;
-                if (totalPoints > maxPoints)
-                {
-                    totalPoints = maxPoints;
-                    return;
-                }
-
                 AddPoint(mousePos);
                 lastPos = mousePos;
             }
             else if (currentLineRenderer)
             {
-            
                 flush();
             }
         }

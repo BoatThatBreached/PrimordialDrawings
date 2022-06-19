@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game_Objects;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -36,8 +37,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        PlayerInfo.LastPlayerPos.z = -10;
-        transform.position = PlayerInfo.LastPlayerPos;
         body.Animate(PlayerInfo.Pass);
         head.Animate(PlayerInfo.Pass);
         rightArm.Animate(PlayerInfo.Pass);
@@ -199,13 +198,6 @@ public class Player : MonoBehaviour
         p.z = -15;
         var type = PlayerInfo.CurrentType;
         game.Spawn(type, p);
-        if (new List<string>{"boat", "saddle", "spear"}.Contains(type))
-            return;
-        if (!PlayerInfo.Spawned.ContainsKey(PlayerInfo.CurrentLevel))
-            PlayerInfo.Spawned[PlayerInfo.CurrentLevel] = new Dictionary<string, List<Vector3>>();
-        if (!PlayerInfo.Spawned[PlayerInfo.CurrentLevel].ContainsKey(PlayerInfo.CurrentType))
-            PlayerInfo.Spawned[PlayerInfo.CurrentLevel][PlayerInfo.CurrentType] = new List<Vector3>();
-        PlayerInfo.Spawned[PlayerInfo.CurrentLevel][PlayerInfo.CurrentType].Add(p);
     }
 
     private void Move()

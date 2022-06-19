@@ -1722,6 +1722,7 @@ RectTransform:
   m_Children:
   - {fileID: 339083686}
   - {fileID: 765607321}
+  - {fileID: 623909892}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2326,6 +2327,94 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2109232288, guid: 4de8fe1eaa704a24096060817e02840d, type: 3}
   m_PrefabInstance: {fileID: 586475251}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &623909891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 623909892}
+  - component: {fileID: 623909894}
+  - component: {fileID: 623909893}
+  - component: {fileID: 623909895}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &623909892
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623909891}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 414968319}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 120, y: -120}
+  m_SizeDelta: {x: 200, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &623909893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623909891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c4324b734e59e2d4bae15f79c8adafc1, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &623909894
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623909891}
+  m_CullTransparentMesh: 1
+--- !u!114 &623909895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623909891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e7ba1aa6754dddb1f2668b5f4329ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &625455118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3174,7 +3263,7 @@ MonoBehaviour:
   startHeight: 0.5
   emberCount: 40
   player: {fileID: 1477882200}
-  fireIndex: 
+  fireIndex: 0
 --- !u!1001 &930130265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4162,9 +4251,8 @@ MonoBehaviour:
   mCamera: {fileID: 1349416221}
   brush: {fileID: 6862706468669150495, guid: 03d719e82bd541f429603248743ae480, type: 3}
   currentLineRenderer: {fileID: 0}
+  delta: 0
   lastPos: {x: 0, y: 0}
-  totalPoints: 0
-  maxPoints: 100
   game: {fileID: 1895516009}
   terrainMaterial: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
 --- !u!1001 &1201603911
@@ -4822,14 +4910,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6a8e53867d41039cb19292803337e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burning: 1
+  burning: 0
   fireBase: {fileID: 1984492857}
-  speed: 3
+  speed: 0.48
   offset: 3
-  startHeight: 2
-  emberCount: 0
+  startHeight: 0.5
+  emberCount: 40
   player: {fileID: 1477882200}
-  fireIndex: 
+  fireIndex: 1
 --- !u!1001 &1377021445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6143,14 +6231,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6a8e53867d41039cb19292803337e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burning: 1
+  burning: 0
   fireBase: {fileID: 1798758445}
-  speed: 3
+  speed: 0.48
   offset: 3
-  startHeight: 2
-  emberCount: 0
+  startHeight: 0.5
+  emberCount: 40
   player: {fileID: 1477882200}
-  fireIndex: 
+  fireIndex: 2
 --- !u!1 &1735545423
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Extensions;
+using Game_Objects;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -20,7 +21,7 @@ public class SavedEntry : MonoBehaviour
     private float _minX, _minY, _maxX, _maxY;
     private bool _moving;
     private float _direction;
-    private Vector3 _center;
+    //private Vector3 _center;
 
     private List<Transform> _embers;
     private List<Transform> _flames;
@@ -74,8 +75,8 @@ public class SavedEntry : MonoBehaviour
     {
         if (lines == null||lines.Count==0)
             return;
-        var allPoints = lines.SelectMany(line => line.ToVectList()).ToList();
-        _center = 1f/allPoints.Count*allPoints.Aggregate((v1, v2) => v1 + v2);
+        //var allPoints = lines.SelectMany(line => line.ToVectList()).ToList();
+        //_center = 1f/allPoints.Count*allPoints.Aggregate((v1, v2) => v1 + v2);
         StartCoroutine(DrawLines(finish));
     }
 

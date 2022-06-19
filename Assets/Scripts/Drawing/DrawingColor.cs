@@ -5,41 +5,46 @@ namespace Drawing
 {
     public class DrawingColor : MonoBehaviour
     {
-        public string material;
-        private SpriteRenderer cursorSprite;
-        public bool chosen;
-        public bool ritual;
+        // public string material;
+        // private SpriteRenderer cursorSprite;
+        // public bool chosen;
+        // public bool ritual;
 
-        private void Start()
-        {
-            cursorSprite = GameObject.Find("Cursorus").GetComponent<SpriteRenderer>();
-        }
-
-        private void OnMouseDown()
-        {
-            cursorSprite.color = material switch
-            {
-                "0" => new Color(0.4078431f, 0, 0),
-                "1" => new Color(1, 0.5714479f, 0),
-                "2" => Color.black,
-                _ => new Color(1, 1, 1)
-            };
-            chosen = true;
-        }
+        // private void Start()
+        // {
+        //     cursorSprite = GameObject.Find("Cursorus").GetComponent<SpriteRenderer>();
+        // }
+        //
+        // private void OnMouseDown()
+        // {
+        //     cursorSprite.color = material switch
+        //     {
+        //         "0" => new Color(0.4078431f, 0, 0),
+        //         "1" => new Color(1, 0.5714479f, 0),
+        //         "2" => Color.black,
+        //         _ => new Color(1, 1, 1)
+        //     };
+        //     chosen = true;
+        // }
 
         private void Update()
         {
-            if (!chosen)
-                return;
-            float scale;
-            if (ritual)
-            {
-                var ritualDraw = GameObject.Find("Draw").GetComponent<RitualDraw>();
-                scale = (ritualDraw.maxPoints - ritualDraw.totalPoints) / ritualDraw.maxPoints;
-            }
-            else
-                scale = PlayerInfo.Paints[material];
-            transform.localScale = new Vector3(scale, scale, 1);
+            // if (!chosen)
+            //     return;
+            // float scale;
+            // if (ritual)
+            // {
+            //     var ritualDraw = GameObject.Find("Draw").GetComponent<RitualDraw>();
+            //     scale = (ritualDraw.maxPoints - ritualDraw.totalPoints) / ritualDraw.maxPoints;
+            // }
+            // else
+            //     scale = material switch
+            //     {
+            //         "2" => PlayerInfo.EarthLeft / PlayerInfo.MaxEarth[PlayerInfo.CurrentLevel],
+            //         _=>1,
+            //     };
+            // transform.localScale = new Vector3(scale, scale, 1);
+            transform.localScale = PlayerInfo.EarthLeft / PlayerInfo.MaxEarth[PlayerInfo.CurrentLevel] * Vector3.one;
         }
     }
 }

@@ -7,27 +7,6 @@ namespace Extensions
 {
     public static class UnityExtensions
     {
-        public static string ToStrList(this IEnumerable<Vector3> source)
-        {
-            return string.Join("|", source.Select(ToCompactString));
-        }
-
-        public static List<Vector3> ToVectList(this string s)
-        {
-            return s.Split('|').Select(ToVector).ToList();
-        }
-
-        private static string ToCompactString(this Vector3 v)
-        {
-            return $"{v.x}_{v.y}_{v.z}";
-        }
-
-        private static Vector3 ToVector(this string s)
-        {
-            var split = s.Split('_');
-            return new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
-        }
-
         public static List<Vector3> KeyPoints(this List<Vector3> line)
         {
             var keyPoints = new List<Vector3> {line[0]};

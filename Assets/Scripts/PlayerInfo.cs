@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using Extensions;
@@ -10,7 +11,6 @@ public static class PlayerInfo
     public static List<string> Learned;
     public static int CurrentLevel;
     private static int _currentIndex;
-    public static Vector3 LastPlayerPos;
     public static string CurrentType => Learned.Count == 0 ? "" : Learned[_currentIndex % Learned.Count];
     public static bool CanSpawnCurrentType => Learned.Count != 0;
 
@@ -21,13 +21,29 @@ public static class PlayerInfo
 
     public static string WantedToLearn;
 
-    public static Dictionary<string, float> Paints;
     public static readonly Action Pass = () => { };
-    public static Dictionary<int, List<Vector3>> Palms; //Level - position mapping
-    public static Dictionary<int, List<Vector3>> Corpses; //Level - position mapping
-    public static Dictionary<int, List<List<Vector3>>> Platforms; //Level - terrain additions mapping
-    public static Dictionary<int, Dictionary<string, List<Vector3>>> Spawned;//Level - spawned objects (types and positions) mapping
+    public static readonly Func<bool> False = () => false;
 
+    public static Dictionary<int, float> MaxEarth => new Dictionary<int, float>
+    {
+        [1] = 100f,
+        [2] = 200f,
+    };
+
+    private static Dictionary<int, int> MaxWood => new Dictionary<int, int>
+    {
+        [1] = 1,
+        [2] = 2,
+    };
+
+    public static float EarthLeft;
+    public static int WoodenPiecesLeft;
+    public static int FireIndex;
+
+
+    public static List<Vector3> Skulls;
+    public static List<List<Vector3>> Platforms;
+    public static List<Vector3> SpawnedSprouts;
 
     public static void UpdateIndex(int i)
     {
@@ -41,30 +57,37 @@ public static class PlayerInfo
 
     public static void Load()
     {
-        Paints = ReadString($"paints_{CurrentLevel}").FromDict();
         Learned = ReadString("learned").FromCustomList();
-        Palms = ReadString($"palms_{CurrentLevel}").FromVectorDict();
-        Corpses = ReadString($"corpses_{CurrentLevel}").FromVectorDict();
-        LastPlayerPos = ReadString($"lastPos_{CurrentLevel}").ToVector();
-        Platforms = ReadString($"platforms_{CurrentLevel}").FromComplexDict();
-        Spawned = ReadString($"spawned_{CurrentLevel}").FromVeryComplexDict();
-        
+        EarthLeft = float.Parse(ReadStringCurrent("earth"));
+        WoodenPiecesLeft = int.Parse(ReadStringCurrent("wood"));
+        FireIndex = int.Parse(ReadStringCurrent("fire"));
+        Skulls = ReadStringCurrent("skulls").ToVectList();
+        SpawnedSprouts = ReadStringCurrent("sprouts").ToVectList();
+        Platforms = ReadStringCurrent("platforms").FromCustomList().Select(s => s.ToVectList()).ToList();
     }
 
+    [SuppressMessage("ReSharper", "SpecifyACultureInStringConversionExplicitly")]
     public static void Save()
     {
-        WriteString($"paints_{CurrentLevel}", Paints.ToDict());
         WriteString("learned", Learned.ToCustomList());
-        WriteString($"palms_{CurrentLevel}", Palms.ToVectorDict());
-        WriteString($"corpses_{CurrentLevel}", Corpses.ToVectorDict());
-        WriteString($"lastPos_{CurrentLevel}", LastPlayerPos.ToVectString());
-        WriteString($"platforms_{CurrentLevel}", Platforms.ToComplexDict());
-        WriteString($"spawned_{CurrentLevel}", Spawned.ToVeryComplexDict());
+        WriteStringCurrent("earth", EarthLeft.ToString());
+        WriteStringCurrent("wood", WoodenPiecesLeft.ToString());
+        WriteStringCurrent("fire", FireIndex.ToString());
+        WriteStringCurrent("skulls", Skulls.ToStrList());
+        WriteStringCurrent("sprouts", SpawnedSprouts.ToStrList());
+        WriteStringCurrent("platforms", Platforms.Select(list => list.ToStrList()).ToCustomList());
     }
 
     public static string ReadString(string filename)
     {
         using var fs = new FileStream($"{Path}/{filename}.prim", FileMode.OpenOrCreate, FileAccess.Read);
+        using var sw = new StreamReader(fs);
+        return sw.ReadToEnd();
+    }
+    
+    public static string ReadStringCurrent(string filename)
+    {
+        using var fs = new FileStream($"{Path}/{filename}_{CurrentLevel}.prim", FileMode.OpenOrCreate, FileAccess.Read);
         using var sw = new StreamReader(fs);
         return sw.ReadToEnd();
     }
@@ -76,28 +99,23 @@ public static class PlayerInfo
         sw.Write(s);
     }
 
-    public static void InitLevelInfo()
+    public static void WriteStringCurrent(string filename, string s)
     {
-        Paints = new Dictionary<string, float>();
+        using var fs = new FileStream($"{Path}/{filename}_{CurrentLevel}.prim", FileMode.OpenOrCreate,
+            FileAccess.Write);
+        using var sw = new StreamWriter(fs);
+        sw.Write(s);
+    }
+
+    public static void InitLevelInfo(int level)
+    {
         Learned = new List<string>();
-        Palms = new Dictionary<int, List<Vector3>>
-        {
-            //[_currentLevel] = new List<Vector3>()
-        };
-        Corpses = new Dictionary<int, List<Vector3>>
-        {
-            //[_currentLevel] = new List<Vector3>()
-        };
-        Platforms = new Dictionary<int, List<List<Vector3>>>
-        {
-            //[_currentLevel] = new List<List<Vector3>>()
-        };
-        Spawned = new Dictionary<int, Dictionary<string, List<Vector3>>>();
-        // WriteString($"paints_{_currentLevel}", Paints.ToDict());
-        // WriteString("learned", Learned.ToCustomList());
-        // WriteString($"palms_{_currentLevel}", Palms.ToVectorDict());
-        // WriteString($"corpses_{_currentLevel}", Corpses.ToVectorDict());
-        // WriteString($"platforms_{_currentLevel}", Platforms.ToComplexDict());
+        EarthLeft = MaxEarth[level];
+        WoodenPiecesLeft = MaxWood[level];
+        FireIndex = 0;
+        Skulls = new List<Vector3>();
+        SpawnedSprouts = new List<Vector3>();
+        Platforms = new List<List<Vector3>>();
         Save();
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Game_Objects;
 using TMPro;
 using UnityEngine;
 
@@ -18,18 +19,20 @@ public class Game : MonoBehaviour
     private void Awake()
     {
         IsPaused = false;
+        LoadLevel();
         PlayerInfo.Load();
+        player.transform.position = new Vector3(4, 9, -15) +
+                                    FindObjectsOfType<Fire>()
+                                        .First(f => f.fireIndex == PlayerInfo.FireIndex)
+                                        .transform.position;
         if (PlayerInfo.Learned.Contains(""))
             PlayerInfo.Learned.Remove("");
-        if (PlayerInfo.Platforms.ContainsKey(PlayerInfo.CurrentLevel))
-            foreach (var platform in PlayerInfo.Platforms[PlayerInfo.CurrentLevel])
-                AddSavedTerrains(platform);
-        if (PlayerInfo.Spawned.ContainsKey(PlayerInfo.CurrentLevel))
-            foreach (var type in PlayerInfo.Spawned[PlayerInfo.CurrentLevel].Keys)
-            foreach (var pos in PlayerInfo.Spawned[PlayerInfo.CurrentLevel][type])
-                Spawn(type, pos);
-        LoadLevel();
-        spawned = new List<SavedEntry>();
+        foreach (var platform in PlayerInfo.Platforms)
+            AddSavedTerrains(platform);
+        foreach (var pos in PlayerInfo.SpawnedSprouts)
+            SpawnSprout(pos);
+        foreach (var skull in PlayerInfo.Skulls)
+            SpawnSkull(skull);
     }
 
     public void Spawn(string type, Vector3 pos)
@@ -46,7 +49,6 @@ public class Game : MonoBehaviour
                 player.held.localScale = 0.5f * Vector3.one;
                 player.held.localPosition = new Vector3(1.5f, 1.5f, 0);
                 player.saddled = true;
-                //spawned.Add(obj);
             },
             "boat" => () =>
             {
@@ -64,15 +66,33 @@ public class Game : MonoBehaviour
                         closest = water.waterPointsContainer.GetChild(j);
                 obj.transform.position = closest.position + Vector3.up;
                 water.boat = obj.transform;
-                //spawned.Add(obj);
             },
-            "sprout" => () => { 
-                spawned.Add(obj); 
-                obj.treeHeight = treeHeight;},
+            "sprout" => () =>
+            {
+                PlayerInfo.SpawnedSprouts.Add(pos);
+                obj.treeHeight = treeHeight;
+            },
 
             _ => PlayerInfo.Pass
         };
         obj.Animate(finish);
+    }
+
+    private void SpawnSkull(Vector3 pos)
+    {
+        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/skull"), transform.parent)
+            .GetComponent<SavedEntry>();
+        obj.transform.position = pos;
+        obj.Animate(PlayerInfo.Pass);
+    }
+
+    private void SpawnSprout(Vector3 pos)
+    {
+        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/skull"), transform.parent)
+            .GetComponent<SavedEntry>();
+        obj.transform.position = pos;
+        obj.treeHeight = treeHeight;
+        obj.Animate(PlayerInfo.Pass);
     }
 
     private void LoadLevel()
@@ -110,7 +130,7 @@ public class Game : MonoBehaviour
         Destroy(lineRenderer);
     }
 
-    public void AddSavedTerrains(List<Vector3> path)
+    private void AddSavedTerrains(List<Vector3> path)
     {
         for (var i = 0; i < path.Count - 1; i++)
         {
@@ -136,8 +156,8 @@ public class Game : MonoBehaviour
                 Clear(obj.transform);
                 var crone = Instantiate(Resources.Load<GameObject>("Prefabs/crone"), obj.transform);
                 crone.transform.localScale = 2 * Vector3.one;
-                
-                crone.GetComponent<SavedEntry>().Animate(()=>obj.Grow());
+
+                crone.GetComponent<SavedEntry>().Animate(() => obj.Grow());
             }
         }
 

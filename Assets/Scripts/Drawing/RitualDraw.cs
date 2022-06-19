@@ -17,8 +17,7 @@ namespace Drawing
 
         private void Start()
         {
-            
-            maxPoints = original.totalPoints * 1.5f;
+            //maxPoints = original.totalPoints * 1.5f;
             container.Init();
             material = PlayerInfo.WantedToLearn switch
             {
@@ -107,11 +106,11 @@ namespace Drawing
                    && Mathf.Abs(omy - cmy) <= border;
         }
 
-        private void Update() => Render(Confirm);
+        private void Update() => Render(PlayerInfo.False, Confirm);
 
         private void Confirm()
         {
-            if (currentLineRenderer.positionCount < 2 || totalPoints > maxPoints)
+            if (currentLineRenderer.positionCount < 2)//( || totalPoints > maxPoints))
             {
                 Destroy(currentLineRenderer.gameObject);
                 return;
