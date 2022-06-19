@@ -18,7 +18,7 @@ public class Levels : MonoBehaviour
         {
             if (int.Parse(child.name) <= maxLevel)
                 continue;
-            child.GetComponent<Image>().color = Color.red;
+            child.GetComponent<Image>().color = new Color(103f/255, 14f/255, 16f/255);
             child.GetComponent<Button>().enabled = false;
         }
     }
