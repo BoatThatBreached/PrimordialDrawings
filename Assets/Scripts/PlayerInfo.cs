@@ -107,7 +107,7 @@ public static class PlayerInfo
 
     public static void WriteStringCurrent(string filename, string s)
     {
-        using var fs = new FileStream($"{Path}/{filename}_{CurrentLevel}.prim", FileMode.OpenOrCreate,
+        using var fs = new FileStream(PathToCurrent(filename), FileMode.OpenOrCreate,
             FileAccess.Write);
         using var sw = new StreamWriter(fs);
         sw.Write(s);
@@ -115,13 +115,26 @@ public static class PlayerInfo
 
     public static void InitLevelInfo(int level)
     {
-        Learned = new List<string>();
+        CurrentLevel = level;
+        Learned = File.Exists(PathTo("learned"))?ReadString("learned").FromCustomList():new List<string>();
         EarthLeft = MaxEarth[level];
         WoodenPiecesLeft = MaxWood[level];
         FireIndex = 0;
-        Skulls = new List<Vector3>();
+        Skulls = File.Exists(PathTo("skulls")) ? ReadString("skulls").ToVectList() : new List<Vector3>();
         SpawnedSprouts = new List<Vector3>();
         Platforms = new List<List<Vector3>>();
         Save();
     }
+
+    public static void ClearCurrentLevel()
+    {
+        File.Delete(PathToCurrent("earth"));
+        File.Delete(PathToCurrent("wood"));
+        File.Delete(PathToCurrent("fire"));
+        File.Delete(PathToCurrent("sprouts"));
+        File.Delete(PathToCurrent("platforms"));
+    }
+
+    private static string PathTo(string filename) => $"{Path}/{filename}.prim";
+    private static string PathToCurrent(string filename) => $"{Path}/{filename}_{CurrentLevel}.prim";
 }

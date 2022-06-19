@@ -90,7 +90,7 @@ public class SavedEntry : MonoBehaviour
 
     private IEnumerator DrawLines(Action finish)
     {
-        _totalPoints = lines.SelectMany(line => line.ToVectList()).ToList().Count;
+        _totalPoints = lines.SelectMany(line => line.ToVectList()).ToList().DividedPoints(0.3f).Count;
         _drawnPoints = 0;
         if (synchronized)
         {

@@ -39,9 +39,18 @@ public class Game : MonoBehaviour
 
     public void Spawn(string type, Vector3 pos)
     {
+        if ((type == "saddle" || type == "boat" || type == "spear"|| type == "sprout") && PlayerInfo.WoodenPiecesLeft == 0)
+            return;
+        
         var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_{type}"), transform.parent)
             .GetComponent<SavedEntry>();
         obj.transform.position = pos;
+        if (type == "saddle" || type == "boat" || type == "spear"|| type == "sprout")
+        {
+            wooden.Select(obj);
+            PlayerInfo.WoodenPiecesLeft--;
+            PlayerInfo.Save();
+        }
         var finish = type switch
         {
             "saddle" => () =>
@@ -72,6 +81,7 @@ public class Game : MonoBehaviour
             "sprout" => () =>
             {
                 PlayerInfo.SpawnedSprouts.Add(pos);
+                spawned.Add(obj);
                 obj.treeHeight = treeHeight;
             },
 
@@ -141,7 +151,7 @@ public class Game : MonoBehaviour
             var len = delta.magnitude;
             var terr = Instantiate(terrainPref, levelContainer.transform);
             terr.transform.position = center;
-            terr.transform.localScale = new Vector3(len, 0.2f, 1);
+            terr.transform.localScale = new Vector3(len, PlayerInfo.LineWidth, 1);
             terr.transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(delta.y, delta.x) / Mathf.PI * 180f);
             terr.GetComponent<SpriteRenderer>().color = Color.black;
         }

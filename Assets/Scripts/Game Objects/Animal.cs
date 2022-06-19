@@ -57,6 +57,8 @@ namespace Game_Objects
         {
             if (!walking)
                 return;
+            if (_player == null)
+                return;
             transform.position += Time.deltaTime * speed * _direction * Vector3.right;
             if (transform.position.x >= rightX)
             {

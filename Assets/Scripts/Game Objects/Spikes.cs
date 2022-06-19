@@ -15,6 +15,8 @@ namespace Game_Objects
 
         private void Update()
         {
+            if (_player == null)
+                return;
             var playerPos = _player.transform.position + _offset;
             if (Mathf.Abs(playerPos.x - transform.position.x) < 5.5f
                 && Mathf.Abs(playerPos.y - transform.position.y) < 1f)

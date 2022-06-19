@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &562322883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 562322884}
+  - component: {fileID: 562322885}
+  m_Layer: 0
+  m_Name: your_sprout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &562322884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562322883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &562322885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562322883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7621e0ae88e84b158837770dbf692a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lines:
+  - -1,830152_1,364726_0|-1,593494_1,522497_0|-1,27795_1,601383_0|-0,9624076_1,601383_0|-0,5679778_1,601383_0|-0,3313197_1,561941_0|-0,1735488_1,246396_0|-0,01577615_1,088625_0|0,1419956_0,8519677_0|0,2997665_0,6941956_0|0,5758682_0,4180957_0|0,7730827_0,2208803_0|0,9308553_0,06310926_0|0,7730827_0,2603236_0|0,733639_0,4969813_0|0,733639_0,8125244_0|0,9308553_1,049183_0|1,167513_1,167511_0|1,40417_1,246396_0|1,640828_1,28584_0|1,877486_1,40417_0|2,074698_1,443612_0
+  - 0,5758682_0,7730822_0|0,4575391_0,9702966_0|0,4180955_1,167511_0|0,1419956_1,443612_0|-0,01577615_1,601383_0|-0,1735488_1,877484_0|-0,3313197_2,074699_0|-0,5285342_2,271914_0|-0,6468632_2,469129_0|-0,922964_2,705787_0
+  - 0,1419956_1,443612_0|0,3392101_1,601383_0|0,4969828_1,916927_0|0,733639_2,271914_0|0,9308553_2,508571_0|1,12807_2,705787_0
+  - 0,4575391_1,916927_0|0,4575391_2,153585_0|0,4575391_2,508571_0|0,4575391_2,745229_0|0,4575391_3,179101_0|0,4575391_3,494645_0|0,4575391_3,810188_0|0,4969828_4,086289_0|0,5364246_4,283504_0|0,5364246_4,520161_0
+  materials:
+  - 1
+  - 1
+  - 1
+  - 1
+  toughness: 00000000
+  terrainPref: {fileID: 8404629687787223352, guid: 8cf55c3975506464cb90bb1672593ea5, type: 3}
+  synchronized: 0
+  envType: sprout
+  treeHeight: 0

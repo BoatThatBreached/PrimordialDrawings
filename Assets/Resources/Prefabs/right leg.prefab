@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2109232287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2109232288}
+  - component: {fileID: 2109232289}
+  m_Layer: 0
+  m_Name: right leg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2109232288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2109232289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7621e0ae88e84b158837770dbf692a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lines:
+  - -0,09587713_-0,009587705_0|-0,09587713_-0,2253112_0|-0,1917543_-0,4170659_0|-0,3595395_-0,5369124_0|-0,5273252_-0,6567591_0|-0,7190795_-0,7766056_0|-0,8868647_-0,8964521_0|-1,05465_-1,016299_0|-1,198466_-1,160115_0|-1,342282_-1,303931_0|-1,486097_-1,447747_0|-1,629913_-1,591563_0|-1,701822_-1,783317_0|-1,701822_-2,02301_0|-1,534036_-2,166826_0|-1,366251_-2,286673_0
+  Materials:
+  - 0
+  Toughness: 01
+  terrainPref: {fileID: 8404629687787223352, guid: 8cf55c3975506464cb90bb1672593ea5, type: 3}
+  blood: {fileID: 2100000, guid: 9c4a5294737f5a44cb382060f4c505c4, type: 2}
+  earth: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
+  wood: {fileID: 2100000, guid: 564b8941f14e35d4d97b66bc377109c6, type: 2}
+  original: {fileID: 0}
+  totalPoints: 0
+  synchronized: 0
+  envType: 

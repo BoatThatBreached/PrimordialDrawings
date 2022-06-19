@@ -185,6 +185,9 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        PlayerInfo.Skulls.Add(transform.position);
+        PlayerInfo.Save();
+        Destroy(gameObject);
         FindObjectOfType<LevelLoader>().Die();
     }
 

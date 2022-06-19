@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2109232287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2109232288}
+  - component: {fileID: 2109232289}
+  m_Layer: 0
+  m_Name: body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2109232288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2109232289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7621e0ae88e84b158837770dbf692a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lines:
+  - -1,764142_1,83605_0|-1,548418_1,883988_0|-1,284756_1,979866_0|-1,069032_2,075744_0|-0,7574304_2,123682_0|-0,4697991_2,171621_0|-0,2540748_2,171621_0|-0,01438194_2,171621_0|0,2253119_2,171621_0|0,4410352_2,171621_0|0,7046986_2,171621_0|0,9204218_2,171621_0|1,112176_2,099713_0|1,3279_2,003835_0|1,519655_1,931927_0
+  - 1,447748_1,716204_0|1,399809_1,50048_0|1,351871_1,260786_0|1,303931_0,9731549_0|1,303931_0,7334614_0|1,208054_0,4458296_0|1,208054_0,1581979_0|1,184084_-0,08149564_0|1,160115_-0,3211889_0|1,112176_-0,5369124_0|1,064237_-0,7526365_0|0,99233_-0,9683603_0|0,9204218_-1,160115_0|0,8005757_-1,375839_0
+  - -1,524449_1,620326_0|-1,47651_1,356664_0|-1,428571_1,116971_0|-1,356664_0,8533084_0|-1,308725_0,6375837_0|-1,236817_0,4218602_0|-1,14094_0,2061367_0|-1,069032_-0,03355682_0|-0,9971232_-0,2732497_0|-0,9252157_-0,4650044_0|-0,8293386_-0,7046977_0|-0,7574304_-0,8964521_0|-0,6855229_-1,160115_0|-0,5896452_-1,375839_0|-0,5177376_-1,567593_0|-0,4218605_-1,759348_0|-0,3259823_-1,951102_0
+  - -0,1102591_-1,951102_0|0,1294338_-1,903164_0|0,321189_-1,831256_0|0,5369123_-1,783317_0|0,6567595_-1,615532_0|0,7286676_-1,423777_0|0,8005757_-1,232023_0
+  materials:
+  - 0
+  - 0
+  - 0
+  - 0
+  toughness: 00000000
+  terrainPref: {fileID: 8404629687787223352, guid: 8cf55c3975506464cb90bb1672593ea5, type: 3}
+  blood: {fileID: 2100000, guid: 9c4a5294737f5a44cb382060f4c505c4, type: 2}
+  earth: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
+  wood: {fileID: 2100000, guid: 564b8941f14e35d4d97b66bc377109c6, type: 2}
+  original: {fileID: 0}
+  totalPoints: 0
+  synchronized: 0
+  envType: 
+  drawn: 0

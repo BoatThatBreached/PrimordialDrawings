@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DieMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void Restart()
     {
-        print("Restart");
+        PlayerInfo.ClearCurrentLevel();
+        PlayerInfo.InitLevelInfo(PlayerInfo.CurrentLevel);
+        SceneManager.LoadScene($"Level {PlayerInfo.CurrentLevel}");
     }
     public void ToMenu()
     {
-        print("To Menu");
+        SceneManager.LoadScene("MenuScene");
+    }
+
+    public void Respawn()
+    {
+        SceneManager.LoadScene($"Level {PlayerInfo.CurrentLevel}");
     }
 }

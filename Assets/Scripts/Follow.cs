@@ -8,6 +8,8 @@ public class Follow : MonoBehaviour
 
     private void Update()
     {
+        if (target == null)
+            return;
         var delta = target.position - transform.position;
         var dx = delta.x+offset.x;
         var dy = delta.y+offset.y;

@@ -21,6 +21,8 @@ namespace Game_Objects
 
         private void Update()
         {
+            if (player == null)
+                return;
             var dt = Time.deltaTime;
             if (burning)
             {

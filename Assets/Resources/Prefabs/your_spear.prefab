@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &562322883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 562322884}
+  - component: {fileID: 562322885}
+  m_Layer: 0
+  m_Name: your_spear
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &562322884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562322883}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &562322885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562322883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7621e0ae88e84b158837770dbf692a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lines:
+  - -6,313519_-0,3956465_0|-6,060977_-0,3956465_0|-5,850526_-0,3956465_0|-5,682166_-0,2693762_0|-5,471716_-0,2272864_0|-5,261266_-0,2272864_0|-5,050814_-0,2272864_0|-4,756184_-0,2272864_0|-4,545733_-0,2272864_0|-4,335282_-0,2272864_0|-4,082742_-0,2272864_0|-3,872291_-0,2693762_0|-3,577661_-0,3535567_0|-3,36721_-0,3956465_0|-3,11467_-0,3956465_0|-2,862127_-0,3956465_0|-2,609587_-0,3956465_0|-2,399137_-0,3956465_0|-2,188687_-0,3956465_0|-1,978236_-0,3956465_0|-1,767784_-0,3956465_0|-1,515244_-0,3956465_0|-1,304794_-0,4377368_0|-1,052253_-0,4377368_0|-0,841803_-0,4798265_0|-0,5892608_-0,4798265_0|-0,3367204_-0,4798265_0|-0,1262706_-0,4798265_0|0,08418104_-0,4798265_0|0,2946309_-0,4798265_0|0,5050825_-0,3956465_0|0,7576219_-0,3956465_0|1,010163_-0,3956465_0|1,220613_-0,3956465_0|1,431065_-0,3956465_0|1,641514_-0,3956465_0|1,851966_-0,3956465_0|2,062418_-0,4377368_0|2,272866_-0,4798265_0|2,483317_-0,4798265_0|2,693767_-0,5219168_0|2,904219_-0,5640076_0|2,609588_-0,4377368_0|2,357047_-0,3535567_0|2,188687_-0,2272864_0|1,978237_-0,1851961_0|1,809875_-0,05892577_0|2,020326_-0,05892577_0|2,230778_-0,1010161_0|2,399138_-0,2272864_0|2,609588_-0,2272864_0|2,777948_-0,3535567_0|2,9884_-0,4377368_0|2,693767_-0,6060974_0|2,483317_-0,6902775_0|2,272866_-0,7323678_0|2,062418_-0,9007283_0|1,894056_-1,026998_0
+  Materials:
+  - 1
+  Toughness: 00
+  terrainPref: {fileID: 8404629687787223352, guid: 8cf55c3975506464cb90bb1672593ea5, type: 3}
+  blood: {fileID: 2100000, guid: 9c4a5294737f5a44cb382060f4c505c4, type: 2}
+  earth: {fileID: 2100000, guid: 916501c9630859c48a3cc57d62830f82, type: 2}
+  wood: {fileID: 2100000, guid: 564b8941f14e35d4d97b66bc377109c6, type: 2}
+  original: {fileID: 0}
+  totalPoints: 0
+  synchronized: 0
+  envType: spear
