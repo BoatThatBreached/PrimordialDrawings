@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2109232287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2109232288}
+  - component: {fileID: 2109232289}
+  m_Layer: 0
+  m_Name: spawning_end
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2109232288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2109232289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109232287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7621e0ae88e84b158837770dbf692a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lines:
+  - -1,273885_0,4111177_0|-1,317314_0,6137812_0|-1,375217_0,8164448_0|-1,505501_1,163868_0|-1,592356_1,424435_0|-1,722641_1,713955_0|-1,881876_1,960046_0|-2,01216_2,177186_0|-2,15692_2,321946_0|-2,374059_2,481182_0|-2,692531_2,654893_0|-2,895194_2,727273_0|-3,141286_2,741749_0|-3,430805_2,712797_0|-3,676896_2,625941_0|-3,850608_2,481182_0
+  - -1,158077_0,4834974_0|-1,100174_0,7295889_0|-0,9119861_0,9322524_0|-0,7672263_1,091489_0|-0,5790387_1,236248_0|-0,376375_1,40996_0|-0,1592355_1,612623_0|0,07237965_1,829763_0|0,2750439_2,01795_0|0,5790393_2,191662_0|0,7961793_2,321946_0|1,027794_2,408801_0|1,215982_2,264041_0|1,25941_2,01795_0|1,317314_1,699479_0|1,375218_1,467863_0
+  - -1,273885_0,5269253_0|-1,259409_0,744065_0|-1,187029_0,9322524_0|-1,027793_1,149392_0|-0,9119861_1,352056_0|-0,8830341_1,554719_0|-1,013318_1,829763_0|-1,187029_2,061378_0|-1,317314_2,249566_0|-1,375217_2,452229_0|-1,172554_2,596989_0|-0,9119861_2,611465_0|-0,6658946_2,712797_0|-0,5500868_2,900985_0|-0,5500868_3,118124_0|-0,6514184_3,291836_0|-0,8685579_3,451071_0|-1,071222_3,581355_0|-1,230458_3,740591_0|-1,114649_3,914302_0|-0,8975103_3,972206_0|-0,6948461_4,073538_0|-0,5500868_4,232774_0|-0,4777071_4,449914_0|-0,5500868_4,638101_0|-0,7527505_4,826288_0|-0,9554138_4,956573_0|-1,158077_5,028953_0|-1,360741_5,086856_0
+  materials:
+  - 1
+  - 1
+  - 1
+  toughness: 000000
+  terrainPref: {fileID: 8404629687787223352, guid: 8cf55c3975506464cb90bb1672593ea5, type: 3}
+  synchronized: 1
+  envType: spawning_end
+  grown: 0
+  treeHeight: 0
