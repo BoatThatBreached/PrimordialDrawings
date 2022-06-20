@@ -44,7 +44,7 @@ namespace Game_Objects
 
         public void Update()
         {
-            for (var i = 0; i < _waves.Count; i++)
+            for (var i = 0; i < _waves.Count-1; i++)
                 _waves[i].Float(_lengths[i], speed, amplitude);
             if (boat == null)
                 return;
@@ -64,7 +64,7 @@ namespace Game_Objects
                 }
                 catch
                 {
-                    _waveIndex = 0;
+                    _waveIndex = _points.Count-1;
                     if(withPlayer)
                     {
                         withPlayer = false;

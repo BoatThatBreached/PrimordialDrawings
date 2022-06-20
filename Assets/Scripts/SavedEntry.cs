@@ -68,7 +68,7 @@ public class SavedEntry : MonoBehaviour
 
         var pos = (Vector2)_player.transform.position+_player.GetComponent<CapsuleCollider2D>().offset;
         
-        if (envType != "sprout" || !(Vector2.Distance(pos, transform.position) < 2)||growing) 
+        if (envType != "sprout" || !(Vector2.Distance(pos, transform.position) < 2)||growing||grown) 
             return;
         Game.Clear(transform);
         var crone = Instantiate(Resources.Load<GameObject>("Prefabs/crone"), transform);
@@ -78,7 +78,7 @@ public class SavedEntry : MonoBehaviour
         crone.GetComponent<SavedEntry>().Animate(Grow);
     }
 
-    public void Start()
+    public void Awake()
     {
         _player = FindObjectOfType<Player>();
         _embers = new List<Transform>();

@@ -12,17 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/GameScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/SettingsScene.unity
-    guid: c50dd4ecf77fd0b48b8eebeb3cea8b1b
-  - enabled: 1
     path: Assets/Scenes/DrawScene.unity
     guid: 6b88093c753b6604488cfde009133cea
-  - enabled: 1
-    path: Assets/Scenes/DeveloperDraw.unity
-    guid: 958c0db5b45afed4a89bff87fb3c6c95
-  - enabled: 1
-    path: Assets/Scenes/Test Level.unity
-    guid: 6ebfedc1f101543468c8bf13a216c3e2
   - enabled: 1
     path: Assets/Scenes/Levels.unity
     guid: b8c4f62db498a4146803a0a9c38432a7
@@ -38,18 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 3.unity
     guid: 866f4654aedb3d7468431817889e4a57
-  - enabled: 1
-    path: Assets/Scenes/Level 4.unity
-    guid: 4311e3df78509284ba009c5b8a7de85d
-  - enabled: 1
-    path: Assets/Scenes/Level 5.unity
-    guid: a91b538fa67215e48a6b7e8a66ccecdb
-  - enabled: 1
-    path: Assets/Scenes/Level 6.unity
-    guid: a9adc2f387c6209419be29aa0f246839
-  - enabled: 1
-    path: Assets/Scenes/Level 7.unity
-    guid: 81df61c382c4add4785076a9f68cefc5
   - enabled: 1
     path: Assets/Scenes/Dead Scene.unity
     guid: 526f538ee50af7c41bd781e7ae7c75cf

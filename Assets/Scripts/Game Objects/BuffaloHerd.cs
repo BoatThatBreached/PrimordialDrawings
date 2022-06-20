@@ -34,6 +34,12 @@ namespace Game_Objects
         {
             if (OverlapPlayer())
             {
+                if (!player.saddled)
+                {
+                    player.Die();
+                    return;
+                }
+
                 if (player.saddled&&!player.onOx)
                 {
                     player.held.localPosition = new Vector3(0.5f, 0, 0);
@@ -54,9 +60,6 @@ namespace Game_Objects
                     player.onOx = true;
                     player.held.localPosition = new Vector3();
                 }
-
-                else
-                    player.Die();
             }
 
 
@@ -73,7 +76,7 @@ namespace Game_Objects
                 {
                     player.myRigidbody.simulated = true;
                     player.transform.SetParent(transform.parent);
-                    player.transform.position += 10 * Vector3.up + 20*Vector3.right;
+                    player.transform.position = new Vector3(rightEdge.position.x + 20, rightEdge.position.y + 10, -15);
                     //player.myRigidbody.AddForce(new Vector2(3000, 0));
                     player.saddled = false;
                     Destroy(player.held.gameObject);

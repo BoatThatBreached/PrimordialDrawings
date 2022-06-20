@@ -34,12 +34,17 @@ public class Player : MonoBehaviour
 
     private const float MAXLegTime = 0.5f;
     private const float MAXBlink = 1f;
+
+    //public AudioSource source;
+    //public AudioClip steps;
+    
     private Water _water;
 
     public bool armed;
 
     private void Start()
     {
+        myRigidbody.simulated = false;
         body.Animate(PlayerInfo.Pass);
         head.Animate(PlayerInfo.Pass);
         rightArm.Animate(PlayerInfo.Pass);
@@ -88,7 +93,7 @@ public class Player : MonoBehaviour
         _water = null;
         onBoat = false;
         myRigidbody.simulated = true;
-        myRigidbody.AddForce(new Vector2(Mathf.Abs(transform.localEulerAngles.y) < 1 ? 3000 : -3000, 3000));
+        myRigidbody.AddForce(new Vector2(Mathf.Abs(transform.localEulerAngles.y) < 1 ? 7000 : -7000, 4000));
     }
 
     private void GetOnBoat()
@@ -101,7 +106,7 @@ public class Player : MonoBehaviour
         _water = water;
         _water.withPlayer = true;
         transform.SetParent(water.boat);
-        transform.localPosition = new Vector3(0, 8, 0);
+        transform.localPosition = new Vector3(0, 4, 0);
         myRigidbody.simulated = false;
         onBoat = true;
     }
@@ -204,6 +209,8 @@ public class Player : MonoBehaviour
     private void Move()
     {
         var pressDir = Input.GetAxis("Horizontal");
+        if (Mathf.Abs(pressDir) > 0.1f)
+            myRigidbody.simulated = true;
         if (onOx)
             return;
         transform.localEulerAngles = pressDir > 0
@@ -211,9 +218,11 @@ public class Player : MonoBehaviour
             : pressDir < 0
                 ? new Vector3(0, 180, 0)
                 : transform.localEulerAngles;
+            //source.PlayOneShot(steps);
         if (onBoat && !_water.strongStream)
         {
             _water.boat.position += pressDir * Time.fixedDeltaTime * boatSpeed * Vector3.right;
+            print("boat moved");
             return;
         }
 

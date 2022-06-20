@@ -31,7 +31,7 @@ public class Game : MonoBehaviour
             SpawnSprout(pos);
         foreach (var skull in PlayerInfo.Skulls)
             SpawnSkull(skull);
-        player.transform.position = new Vector3(4, 9, -15) +
+        player.transform.position = new Vector3(2, 4, -15) +
                                     FindObjectsOfType<Fire>()
                                         .First(f => f.fireIndex == PlayerInfo.FireIndex)
                                         .transform.position;

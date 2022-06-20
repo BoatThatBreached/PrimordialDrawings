@@ -123,12 +123,12 @@ public static class PlayerInfo
     {
         CurrentLevel = level;
         Learned = File.Exists(PathTo("learned"))?ReadString("learned").FromCustomList():new List<string>();
-        EarthLeft = MaxEarth[level];
-        WoodenPiecesLeft = MaxWood[level];
-        FireIndex = 0;
-        Skulls = File.Exists(PathTo("skulls")) ? ReadString("skulls").ToVectList() : new List<Vector3>();
-        SpawnedSprouts = new List<Vector3>();
-        Platforms = new List<List<Vector3>>();
+        EarthLeft = File.Exists(PathToCurrent("earth"))?float.Parse(ReadStringCurrent("earth")):MaxEarth[level];
+        WoodenPiecesLeft = File.Exists(PathToCurrent("wood"))?int.Parse(ReadStringCurrent("wood")):MaxWood[level];
+        FireIndex = File.Exists(PathToCurrent("fire")) ? int.Parse(ReadStringCurrent("fire"))%2 : 0;
+        Skulls = File.Exists(PathToCurrent("skulls")) ? ReadStringCurrent("skulls").ToVectList() : new List<Vector3>();
+        SpawnedSprouts = File.Exists(PathToCurrent("sprouts")) ? ReadStringCurrent("sprouts").ToVectList() : new List<Vector3>();
+        Platforms = File.Exists(PathToCurrent("platforms"))?ReadStringCurrent("platforms").FromCustomList().Select(s => s.ToVectList()).ToList():new List<List<Vector3>>();
         Save();
     }
 
