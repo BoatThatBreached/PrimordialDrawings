@@ -26,20 +26,26 @@ public static class PlayerInfo
 
     public static Dictionary<int, float> MaxEarth => new Dictionary<int, float>
     {
-        [0] = 100f,
-        [1] = 100f,
-        [2] = 200f,
+        [0] = 0,
+        [1] = 40f,
+        [2] = 40f,
         [3] = 200f,
-        [4] = 200f
+        [4] = 200f,
+        [5] = 200f,
+        [6] = 200f,
+        [7] = 200f
     };
 
     private static Dictionary<int, int> MaxWood => new Dictionary<int, int>
     {
-        [0] = 4,
-        [1] = 4,
+        [0] = 0,
+        [1] = 0,
         [2] = 2,
-        [3] = 2,
-        [4] = 2
+        [3] = 6,
+        [4] = 2,
+        [5] = 2,
+        [6] = 2,
+        [7] = 2
     };
 
     public static float EarthLeft;
@@ -137,4 +143,27 @@ public static class PlayerInfo
 
     private static string PathTo(string filename) => $"{Path}/{filename}.prim";
     private static string PathToCurrent(string filename) => $"{Path}/{filename}_{CurrentLevel}.prim";
+
+    public static void SavePref(SavedEntry container)
+    {
+        var lines = container.lines.ToCustomList();
+        WriteString($"your_{container.envType}.lines", lines);
+        var materials = container.materials.ToCustomList();
+        WriteString($"your_{container.envType}.materials", materials);
+        var sync = container.synchronized ? "true" : "false";
+        WriteString($"your_{container.envType}.sync", sync);
+        var name = container.envType;
+        WriteString($"your_{container.envType}.name", name);
+    }
+
+    public static void LoadPref(SavedEntry entry, string name)
+    {
+        
+        entry.lines = ReadString($"your_{name}.lines").FromCustomList();
+        entry.toughness = Enumerable.Repeat(false, entry.lines.Count).ToList();
+        entry.materials = ReadString($"your_{name}.materials").FromCustomList();
+        entry.synchronized = bool.Parse(ReadString($"your_{name}.sync"));
+        entry.envType = name;
+        entry.RefreshBounds();
+    }
 }

@@ -15,7 +15,7 @@ namespace Game_Objects
             PlayerInfo.WantedToLearn = body.envType;
             PlayerInfo.WantedScale = body.transform.localScale;
             PlayerInfo.Save();
-            SceneManager.LoadScene("DrawScene");
+            FindObjectOfType<LevelLoader>().SelectScene("DrawScene");
         }
     }
 }

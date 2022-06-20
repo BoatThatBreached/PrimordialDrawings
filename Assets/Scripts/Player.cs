@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
         leftLeg.Animate(PlayerInfo.Pass);
         //_direction = 1;
         _blinkRate = Random.Range(3f, 4f);
+        myRigidbody.gravityScale = 20;
     }
 
     private void Update()
@@ -60,7 +61,14 @@ public class Player : MonoBehaviour
         Step();
         Spawn();
         GetFromBoat();
-        
+        TryDie();
+
+    }
+
+    private void TryDie()
+    {
+        if(transform.position.y<-30)
+            Die();
     }
 
     private void RotateSpear()
@@ -175,9 +183,10 @@ public class Player : MonoBehaviour
     public void Die()
     {
         PlayerInfo.Skulls.Add(transform.position);
+        game.SpawnSkull(transform.position);
         PlayerInfo.Save();
         Destroy(gameObject);
-        FindObjectOfType<LevelLoader>().Die();
+        FindObjectOfType<LevelLoader>().SelectScene("Dead Scene");
     }
 
     private void Spawn()
@@ -195,6 +204,8 @@ public class Player : MonoBehaviour
     private void Move()
     {
         var pressDir = Input.GetAxis("Horizontal");
+        if (onOx)
+            return;
         transform.localEulerAngles = pressDir > 0
             ? new Vector3(0, 0, 0)
             : pressDir < 0
@@ -205,9 +216,6 @@ public class Player : MonoBehaviour
             _water.boat.position += pressDir * Time.fixedDeltaTime * boatSpeed * Vector3.right;
             return;
         }
-
-        if (onOx)
-            return;
 
         myRigidbody.MovePosition(myRigidbody.position +
                                  new Vector2(pressDir * Time.fixedDeltaTime * speed, 0));

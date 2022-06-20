@@ -11,6 +11,7 @@ namespace Game_Objects
         public SavedEntry oxPref;
 
         public Player player;
+        private SavedEntry _ridOx;
 
         private void Start()
         {
@@ -33,7 +34,7 @@ namespace Game_Objects
         {
             if (OverlapPlayer())
             {
-                if (player.saddled)
+                if (player.saddled&&!player.onOx)
                 {
                     player.held.localPosition = new Vector3(0.5f, 0, 0);
                     var minDist = 100000f;
@@ -47,8 +48,11 @@ namespace Game_Objects
                         minDist = dist;
                     }
 
+                    _ridOx = ridOx;
                     player.transform.SetParent(ridOx.transform);
                     player.myRigidbody.simulated = false;
+                    player.onOx = true;
+                    player.held.localPosition = new Vector3();
                 }
 
                 else
@@ -65,10 +69,17 @@ namespace Game_Objects
                                           7 * Mathf.Sin(9 * Time.time + ind) * Vector3.up);
                 if (!(ox.transform.position.x > rightEdge.position.x)) 
                     continue;
-                if (ox.transform.childCount > 0)
+                if (ox == _ridOx)
                 {
                     player.myRigidbody.simulated = true;
                     player.transform.SetParent(transform.parent);
+                    player.transform.position += 10 * Vector3.up + 20*Vector3.right;
+                    //player.myRigidbody.AddForce(new Vector2(3000, 0));
+                    player.saddled = false;
+                    Destroy(player.held.gameObject);
+                    player.held = null;
+                    player.onOx = false;
+                    _ridOx = null;
                 }
                 ox.transform.position = leftEdge.position;
             }
@@ -78,9 +89,11 @@ namespace Game_Objects
 
         private bool OverlapPlayer()
         {
+            if (player == null)
+                return false;
             var pos = player.transform.position;
             return pos.x > leftEdge.position.x && pos.x < rightEdge.position.x &&
-                   Mathf.Abs(transform.position.y - pos.y) < 6;
+                   Mathf.Abs(transform.position.y - pos.y) < 8;
         }
     }
 }

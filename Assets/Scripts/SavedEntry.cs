@@ -30,13 +30,14 @@ public class SavedEntry : MonoBehaviour
     private float _direction;
 
     public float Volume => 1 - (float) _drawnPoints / _totalPoints;
-    //private Vector3 _center;
+    public bool grown;
 
     private List<Transform> _embers;
     private List<Transform> _flames;
 
     public float treeHeight;
-
+    private Player _player;
+    private bool growing;
     public void Move(float dir)
     {
         _moving = true;
@@ -61,23 +62,30 @@ public class SavedEntry : MonoBehaviour
         {
             transform.position += new Vector3(1, _direction, 0) * Time.deltaTime * 20;
         }
+        
+        if (_player == null)
+            return;
+
+        var pos = (Vector2)_player.transform.position+_player.GetComponent<CapsuleCollider2D>().offset;
+        
+        if (envType != "sprout" || !(Vector2.Distance(pos, transform.position) < 2)||growing) 
+            return;
+        Game.Clear(transform);
+        var crone = Instantiate(Resources.Load<GameObject>("Prefabs/crone"), transform);
+        crone.transform.localScale = 1.5f * Vector3.one;
+        growing = true;
+
+        crone.GetComponent<SavedEntry>().Animate(Grow);
     }
 
     public void Start()
     {
+        _player = FindObjectOfType<Player>();
         _embers = new List<Transform>();
         _flames = new List<Transform>();
         if (lines == null || lines.Count == 0)
             return;
-        var points = lines
-            .Select(line => line.ToVectList())
-            .SelectMany(l => l)
-            .Select(v => v.Extend(transform.localScale))
-            .ToList();
-        _minX = points.Min(v => v.x) + transform.position.x;
-        _minY = points.Min(v => v.y) + transform.position.y;
-        _maxX = points.Max(v => v.x) + transform.position.x;
-        _maxY = points.Max(v => v.y) + transform.position.y;
+        RefreshBounds();
     }
 
     public void Animate(Action finish)
@@ -361,10 +369,11 @@ public class SavedEntry : MonoBehaviour
 
     private IEnumerator GrowTree()
     {
+        grown = true;
         var height = 0f;
-        var dh = 0.8f;
+        const float dh = 0.8f;
         var width = 1.2f;
-        var dw = 0.2f;
+        const float dw = 0.2f;
         while (height < treeHeight)
         {
             var currX = Mathf.Sin(height);
@@ -378,6 +387,33 @@ public class SavedEntry : MonoBehaviour
             var downPointRight = new Vector3(currX + width / 2, -height, -15);
             yield return AddLine(new List<Vector3> {upPointLeft, downPointLeft, downPointRight, upPointRight}, "1",
                 false);
+            yield return new WaitForSeconds(Time.deltaTime * 2);
         }
+
+        
+    }
+
+    public void RefreshBounds()
+    {
+        _minX = 10000000000f;
+        _minY = 10000000000f;
+        _maxX = -10000000000f;
+        _maxY = -10000000000f;
+        foreach (var p in lines.Select(line => line.ToVectList()).SelectMany(line => line))
+        {
+            if (p.x < _minX)
+                _minX = p.x;
+            if (p.y < _minY)
+                _minY = p.y;
+            if (p.x > _maxX)
+                _maxX = p.x;
+            if (p.y > _maxY)
+                _maxY = p.y;
+        }
+
+        _minX += transform.position.x;
+        _minY += transform.position.y;
+        _maxX += transform.position.x;
+        _maxY += transform.position.y;
     }
 }

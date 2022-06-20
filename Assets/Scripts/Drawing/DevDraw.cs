@@ -18,7 +18,9 @@ namespace Drawing
         public void Save()
         {
             container.envType = title.text;
+            #if UNITY_EDITOR
             PrefabUtility.SaveAsPrefabAsset(container.gameObject, $"Assets/Resources/Prefabs/{title.text}.prefab");
+            #endif
             Game.Clear(container.transform);
             container.Init();
         }

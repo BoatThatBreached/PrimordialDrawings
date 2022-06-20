@@ -1,7 +1,5 @@
 using System.IO;
-using Extensions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Levels : MonoBehaviour
@@ -12,7 +10,7 @@ public class Levels : MonoBehaviour
     {
         var maxLevel = File.Exists($"{PlayerInfo.Path}/maxLvl.prim")
             ? int.Parse(PlayerInfo.ReadString("maxLvl"))
-            : 4;
+            : 0;
         PlayerInfo.WriteString("maxLvl", maxLevel.ToString());
         foreach (Transform child in grid)
         {
@@ -28,6 +26,6 @@ public class Levels : MonoBehaviour
         print(number);
         PlayerInfo.CurrentLevel = number;
         PlayerInfo.InitLevelInfo(number);
-        SceneManager.LoadScene($"Level {number}");
+        FindObjectOfType<LevelLoader>().SelectScene($"Level {number}");
     }
 }

@@ -6,17 +6,15 @@ public class LevelLoader : MonoBehaviour
 {
     public Animator transition;
     public float duration;
-    private static readonly int Start = Animator.StringToHash("Start");
 
-    public void Die()
+    public void SelectScene(string scene)
     {
-        StartCoroutine(LoadDieLevel());
+        StartCoroutine(Select(scene));
     }
-
-    private IEnumerator LoadDieLevel()
+    private IEnumerator Select(string scene)
     {
-        transition.SetTrigger(Start);
+        transition.SetTrigger("Start");
         yield return new WaitForSeconds(duration);
-        SceneManager.LoadScene("Dead Scene");
+        SceneManager.LoadScene(scene);
     }
 }

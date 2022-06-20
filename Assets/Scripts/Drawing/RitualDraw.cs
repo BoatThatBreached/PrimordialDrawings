@@ -40,11 +40,12 @@ namespace Drawing
             container.envType = PlayerInfo.WantedToLearn;
             PlayerInfo.Learned.Add(container.envType);
             PlayerInfo.Save();
-            
+            #if UNITY_EDITOR
             PrefabUtility.SaveAsPrefabAsset(container.gameObject, $"Assets/Resources/Prefabs/your_{title}.prefab");
+            #endif
+            PlayerInfo.SavePref(container);
             Clear();
-
-            SceneManager.LoadScene(PlayerInfo.PrevScene);
+            FindObjectOfType<LevelLoader>().SelectScene(PlayerInfo.PrevScene);
         }
 
         public void Clear()

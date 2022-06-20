@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game_Objects
 {
@@ -13,6 +14,7 @@ namespace Game_Objects
         public int emberCount;
         public Player player;
         public int fireIndex;
+        public bool isFinal;
 
         private void Start()
         {
@@ -38,6 +40,14 @@ namespace Game_Objects
                 burning = true;
                 PlayerInfo.FireIndex = Math.Max(fireIndex, PlayerInfo.FireIndex);
                 PlayerInfo.Save();
+                if (isFinal)
+                {
+                    var maxLevel = int.Parse(PlayerInfo.ReadString("maxLvl"));
+                    if (maxLevel == PlayerInfo.CurrentLevel)
+                        maxLevel++;
+                    PlayerInfo.WriteString("maxLvl", maxLevel.ToString());
+                    FindObjectOfType<LevelLoader>().SelectScene("Levels");
+                }
             }
         }
     }

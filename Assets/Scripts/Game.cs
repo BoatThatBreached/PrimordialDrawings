@@ -13,21 +13,16 @@ public class Game : MonoBehaviour
     public GameObject toLearnContainer;
     public static bool IsPaused;
     public Player player;
-    public List<SavedEntry> spawned;
     public float treeHeight;
     public CircleLayoutGroup wooden;
 
     private void Awake()
     {
         IsPaused = false;
-        spawned = new List<SavedEntry>();
         LoadLevel();
         PlayerInfo.Load();
         wooden.Init(PlayerInfo.WoodenPiecesLeft);
-        player.transform.position = new Vector3(4, 9, -15) +
-                                    FindObjectsOfType<Fire>()
-                                        .First(f => f.fireIndex == PlayerInfo.FireIndex)
-                                        .transform.position;
+        
         if (PlayerInfo.Learned.Contains(""))
             PlayerInfo.Learned.Remove("");
         foreach (var platform in PlayerInfo.Platforms)
@@ -36,6 +31,10 @@ public class Game : MonoBehaviour
             SpawnSprout(pos);
         foreach (var skull in PlayerInfo.Skulls)
             SpawnSkull(skull);
+        player.transform.position = new Vector3(4, 9, -15) +
+                                    FindObjectsOfType<Fire>()
+                                        .First(f => f.fireIndex == PlayerInfo.FireIndex)
+                                        .transform.position;
     }
 
     public void Spawn(string type, Vector3 pos)
@@ -43,8 +42,9 @@ public class Game : MonoBehaviour
         if ((type == "saddle" || type == "boat" || type == "spear"|| type == "sprout") && PlayerInfo.WoodenPiecesLeft == 0)
             return;
         
-        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_{type}"), transform.parent)
+        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/envPref"), transform.parent)
             .GetComponent<SavedEntry>();
+        PlayerInfo.LoadPref(obj, type);
         obj.transform.position = pos;
         if (type == "saddle" || type == "boat" || type == "spear"|| type == "sprout")
         {
@@ -57,8 +57,8 @@ public class Game : MonoBehaviour
             "saddle" => () =>
             {
                 player.held = obj.transform;
-                player.held.SetParent(transform);
-                player.held.localScale = 0.5f * Vector3.one;
+                player.held.SetParent(player.transform);
+                player.held.localScale = Vector3.one;
                 player.held.localPosition = new Vector3(1.5f, 1.5f, 0);
                 player.saddled = true;
             },
@@ -82,7 +82,6 @@ public class Game : MonoBehaviour
             "sprout" => () =>
             {
                 PlayerInfo.SpawnedSprouts.Add(pos);
-                spawned.Add(obj);
                 obj.treeHeight = treeHeight;
             },
             "spear" => () =>
@@ -99,7 +98,7 @@ public class Game : MonoBehaviour
         obj.Animate(finish);
     }
 
-    private void SpawnSkull(Vector3 pos)
+    public void SpawnSkull(Vector3 pos)
     {
         var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/skull"), transform.parent)
             .GetComponent<SavedEntry>();
@@ -109,12 +108,13 @@ public class Game : MonoBehaviour
 
     private void SpawnSprout(Vector3 pos)
     {
-        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/your_sprout"), transform.parent)
+        var obj = Instantiate(Resources.Load<GameObject>($"Prefabs/envPref"), transform.parent)
             .GetComponent<SavedEntry>();
+        PlayerInfo.LoadPref(obj, "sprout");
+        
         obj.transform.position = pos;
         obj.treeHeight = treeHeight;
         obj.Animate(PlayerInfo.Pass);
-        spawned.Add(obj);
     }
 
     private void LoadLevel()
@@ -171,17 +171,6 @@ public class Game : MonoBehaviour
     {
         if (IsPaused || PlayerInfo.Learned.Count == 0)
             return;
-        foreach (var obj in spawned.Where(o => o.Clicked()))
-        {
-            if (obj.envType == "sprout")
-            {
-                Clear(obj.transform);
-                var crone = Instantiate(Resources.Load<GameObject>("Prefabs/crone"), obj.transform);
-                crone.transform.localScale = 2 * Vector3.one;
-
-                crone.GetComponent<SavedEntry>().Animate(() => obj.Grow());
-            }
-        }
 
         PlayerInfo.UpdateIndex((int) Input.mouseScrollDelta.y);
         currentSpawn.text = PlayerInfo.CurrentType;

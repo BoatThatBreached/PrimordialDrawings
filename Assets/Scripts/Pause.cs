@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
@@ -9,7 +7,8 @@ public class Pause : MonoBehaviour
     public void Escape()
     {
         Game.IsPaused = false;
-        SceneManager.LoadScene("MenuScene");
+        PlayerInfo.Save();
+        FindObjectOfType<LevelLoader>().SelectScene("MenuScene");
     }
 
     public void Resume()
@@ -27,10 +26,12 @@ public class Pause : MonoBehaviour
 
     public void Restart()
     {
-        
+        PlayerInfo.ClearCurrentLevel();
+        PlayerInfo.InitLevelInfo(PlayerInfo.CurrentLevel);
+        FindObjectOfType<LevelLoader>().SelectScene($"Level {PlayerInfo.CurrentLevel}");
     }
 
-    public void EnterSettings() => SceneManager.LoadScene("SettingsScene");
+    public void EnterSettings() => FindObjectOfType<LevelLoader>().SelectScene($"SettingsScene");
 
     private void Update()
     {
